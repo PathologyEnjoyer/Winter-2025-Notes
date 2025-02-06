@@ -4,10 +4,14 @@
 \usepackage[document]{ragged2e}
 \usepackage{epsfig}
 \usepackage{dynkin-diagrams}
+\usepackage{pgfkeys}
+\usepackage{pgfopts}
+\usepackage{xcolor}
+\usepackage{ytableau}
 
 \pagestyle{fancy}{
-	\fancyhead[L]{Fall 2024}
-	\fancyhead[C]{MAT1344F}
+	\fancyhead[L]{Winter 2025}
+	\fancyhead[C]{MAT445F}
 	\fancyhead[R]{John White}
   
   \fancyfoot[R]{\footnotesize Page \thepage \ of \pageref{LastPage}}
@@ -31,6 +35,7 @@
 \newcommand{\tphi}{\tilde{\phi}}
 \newcommand{\pois}[2]{\{#1,#2\}}
 \newcommand{\fibrate}[3]{\begin{tikzcd} #1 \ar[d, "#2"] \\ #3 \end{tikzcd}}
+\newcommand{\bark}{\bar{k}}
 \renewcommand{\t}{\mk{t}}
 \DeclareMathOperator{\Perm}{Perm}
 \DeclareMathOperator{\pdim}{pdim}
@@ -44,6 +49,7 @@
 \DeclareMathOperator{\ad}{ad}
 \DeclareMathOperator{\gr}{gr}
 \DeclareMathOperator{\Sig}{Sig}
+\DeclareMathOperator{\Res}{Res}
 \newcommand{\Rmod}{R-\text{mod}}
 \newcommand{\RMod}{R-\text{Mod}}
 \newcommand{\onto}{\twoheadrightarrow}
@@ -63,11 +69,13 @@
 \DeclareMathOperator{\Lag}{Lag}
 \DeclareMathOperator{\Riem}{Riem}
 \DeclareMathOperator{\Span}{span}
+\DeclareMathOperator{\Ind}{Ind}
 \newcommand{\exactlon}[5]{
 		\begin{tikzcd}
 			0\ar[r]&#1\ar[r,"#2"]& #3 \ar[r,"#4"]& #5 \ar[r]&0
 		\end{tikzcd}
 }
+
 
 \title{MAT445}
 \author{John White}
@@ -237,6 +245,1550 @@ We can finally prove the theorem:
 \end{align*}
 
 \qed
+
+\section*{Lecture 4, 16/1/24}
+
+As always, $G$ will be a finite group, $k = \bar{k}$ is an algebraically closed field of characteristic 0. 
+
+$\Q(\mu_\oo)$ is the algebraically closed subfield of $\C$ which contains all the roots of unity, and this comes with the complex conjugate $\bar{\cdot}, \zeta\mapsto\zeta^{-1}$. 
+
+Goal: Classify finite dimensional $G$-representations over $k$. 
+
+We have done:
+\begin{enumerate}
+
+\item Maschke's theorem, which states that any $G$-rep in $V$ over $k$ is semisimple. 
+
+\item Character theory: $V \sim \chi_V:G\to\Q(\mu_\oo)\subseteq k$ , $g \mapsto \tr(g|V)$
+
+\end{enumerate}
+
+\defn
+
+$Cl(G)$ denotes the class functions $G \mapsto \Q(\mu_\oo)$, and it is equipped with an inner product, 
+\[
+\langle\psi,\varphi\rangle = \frac{1}{|G|}\sum_{g\in G}\psi(g)\bar{\varphi(g)}
+\]
+
+Remark: There is an isomorphism $Cl(G) \simeq Z(\Q(\mu_\oo)[G])$, sending $\varphi$ to $\sum_{g\in G}\phi(g)e_g$
+
+Warning: They come with different ring structures which are not preserved by this isomorphism. 
+
+Last time we used the Reynolds operator to show $\langle\chi_V,\chi_W\rangle = \dim_k\Hom_G(V, W)$. 
+
+If $\rho_1,\rho_2$ are irreps of $G$, then $\langle\chi_{\rho_1},\chi_{\rho_2}\rangle$ is $1$ if $\rho_1\cong\rho_2$, and 0 otherwise. 
+
+\cor
+
+$\#$ of conjugacy classes of irreducible representations of $G \leq \dim_{\Q(\mu_\oo)}Cl(G) = \#$ of conjugacy classes of $G$
+
+\proof
+
+If $\chi_{\rho_i}$ are orthonormal, then the number of conjugacy classes of irreps is equal to $\dim \Span(\chi_{\rho_i}) \subseteq Cl(G)$, so this number is $\leq \dim Cl(G)$
+
+\qed
+
+\prop
+
+Let $V$ be a $G$-representation. Then 
+\[
+\Phi_V:\oplus_{\rho_i\text{ irrep of }G}\rho_i\otimes_k\Hom_G(\rho_i, V) \to V
+\]
+given by $v\otimes f \mapsto f(v)$ is an isomorphism. 
+
+\proof
+
+First, we show it is surjective. By Maschke, $V = \oplus_{\rho_i \text{ reps }G}\rho_i^{n_i}$. 
+
+Let $v \in \rho_i^{n_i}\subseteq V$, $v = (v_1, \dots, v_{n_i})$. Let $f_j:\rho_j\to \rho_i^{n_i}$ be the inclusion of the $j$th coordinate.
+
+Then $\Phi_v(\sum_jv_j\otimes f_j) = v$. 
+
+Now we show injectivity. 
+
+We have
+\[
+\dim_k\oplus\rho_i\otimes_k\Hom_G(\rho_i,V) = \dim_kV
+\]
+This follows from 
+\[
+\dim_k\Hom_G(\rho_i,V) = n_i
+\]
+This follows from 
+\begin{align*}
+\Hom_G(\rho_i,V) & = \Hom_G(\rho_i,\oplus\rho_i^{n_i}) \\
+& = \oplus_j\Hom_G(\rho_i,\rho_j)^{n_i} \\
+& = \Hom_G(\rho_i,\rho_j)^{n_i} \\
+\end{align*}
+Which is $n_i$-dimensional
+\[
+\dim_k\oplus\rho_i\otimes\Hom_G(\rho_i,V) = \sum n_i\dim_k\rho_i = \dim V
+\]
+
+\qed
+
+\cor
+
+\[
+V \simeq \oplus_{\rho\text{ irreps of }G}\rho_i^{\langle\chi_{\rho_i},\chi_{V}\rangle}
+\]
+
+\proof
+
+Enough to show $\rho_i^{\langle\rho_i,V\rangle } \simeq \rho_i\otimes_k\Hom_G(\rho_i,V)$, i.e. $\dim_k\Hom(\rho_i,V) = \langle\chi_{\rho_i},\chi_{\rho_j}\rangle$. But that's the theorem. 
+
+\qed
+
+\cor
+
+\[
+V \simeq \oplus_{\rho_i\text{irreps}}\rho_i^{\oplus n_i}
+\]
+, then $\langle \chi_V,\chi_V\rangle = \sum_in_i^2$
+
+\proof
+
+$\chi_V = \sum n_i\chi_{\rho_i}$
+
+\qed
+
+\cor
+
+$V \simeq W\iff \chi_V = \chi_W$
+
+\cor
+
+$V$ is irreducible if and only if $\langle\chi_V,\chi_V\rangle = 1$. 
+
+\proof
+
+Write $V = \oplus_i\rho_i^{n_i}$: so $\langle\chi_V,\chi_V\rangle = \sum_in_i^2$ is equal to 1 iff exactly $1$ $n_i$ is nonzero, and equal to 1. 
+
+\qed
+
+\exm(The regular representation)
+
+Let $G \curvearrowright k(G)$ via left multiplication. 
+
+$\chi_{k[G]}(g) = \tr(g|k[G])$, which is $|G|$ if $g$ is the identity, and 0 otherwise. 
+
+Because $g\cdot e_{g'} = e_{gg'}$, we have
+\[
+\tr(g|k[G]) = \#\{h\in G \mid gh = g\}
+\]
+
+Remark: if $X$ is a $G$-set (i.e. a set with a $G$-action), then the permutation representation, $k^X,$ has character 
+
+\[
+\chi_{k^X}(g) = \#\{x\in X \mid g\cdot x = x\}
+\]
+
+\cor
+
+As a $G$-representation, 
+\[
+k[G] \simeq \oplus_{\rho_i\text{ irrep }}\rho_i^{\oplus\dim\rho_i}
+\]
+
+\proof
+
+\begin{align*}
+\langle\chi_{\rho_i},\chi_{k[G]}\rangle & = \frac{1}{|G|}\sum_{g\in G}\chi_{\rho_i}(g)\bar{\chi_{k[G]}(g)} \\
+& = \frac{1}{|G|}\chi_{\rho_i}(e)\bar{\chi_{k[G]}(e)} \\
+& = \frac{1}{|G|}\dim\rho_i |G| \\
+& = \dim\rho_i
+\end{align*}
+Because this representation is 0 except at the identity. 
+
+\qed
+
+Remark: In fact, $\Hom_G(k[G],\rho_i)\simeq\rho_i$, AS A VECTOR SPACE.
+
+\proof
+
+$\Hom_G(k[G],\rho_i) = \Hom_{k[G]}(k[G],\rho_i) \simeq \rho_i$ AS A VECTOR SPACE
+
+\qed
+
+\cor
+
+Let $\rho_i$ be the (conjugacy classes of) irreps of $G$, $n_i$ the dimension of $\rho_i$. 
+
+Then $\sum_in_i^2= |G|$. 
+
+\proof
+
+$|G| = \dim_kk[G] = \dim_k\oplus_i\rho_i^{\oplus\dim\rho_i} = \sum n_i^2$
+
+\qed
+
+\thm
+
+Let $G$ be a finite group, $k = \bar{k}$ an algebraically closed field of characteristic 0, $\rho_1,\dots,\rho_n$ the irreps of $G$. Then $\{\chi_{\rho_i}\}$ is an orthonormal basis of $Cl(G)$.
+
+\proof
+
+We know it's orthonormal (so in particular linearly independent), so it is left to show that this indeed spans all of $Cl(G)$. 
+
+What remains to show is that $\chi_{\rho_i}$ span $Cl(G)$.
+
+It is enough to show that if $\psi\in Cl(G)$ with $\langle\psi,\chi_{\rho_i}\rangle = 0$ for all $i$, then $\psi = 0$, i.e. the orthogonal complement of the span of the $\chi_{\rho_i}$ is trivial. 
+
+\defn
+
+If $\psi:G\to\Q(\mu_\oo)$ is a class function, 
+\[
+\gamma_\psi\eqdef\sum_{g\in G}\psi(g)e_g \in Z(k[G])
+\]
+
+\exm
+
+If $\psi:G\to k$, $g \mapsto \frac{1}{|G|}$, $\gamma_\psi = R_G$. 
+
+We will compute what $\gamma_\psi$ does to a representation. 
+
+\prop 
+
+If $\rho$ is an irreducible representation of $G$, then $\gamma_\psi:\rho\to\rho$ is multiplication by the scalar $\frac{|G|}{\dim\rho}\langle\psi,\chi_{\rho^v}\rangle$
+
+\proof
+\,
+
+\begin{enumerate}
+
+\item First, $\gamma_\psi:\rho\to\rho$ is a homomorphism of $G$-representations, which follows from $\gamma_\psi\cdot g \cdot v = g\cdot \gamma_\psi\cdot v$ for all $g \in G, v \in \rho$, as $\gamma_\psi\in Z(k[G])$.
+
+\item By Schur, $\gamma_\psi:\rho\to\rho$ is a scalar. 
+
+\item $\gamma_\psi = \frac{\tr(\gamma_\psi|\rho)}{\dim\rho}\cdot\Id_\rho$, so
+\[
+\tr(\gamma_\psi|\rho) = \tr(\sum_{g\in G}\psi(g)e_g|\rho) = \sum_{g\in G}\psi(g)\chi_\rho(g) = |G|\langle\psi,\bar{\chi_\rho}\rangle = |G| \langle\psi, \chi_{\rho^v}\rangle
+\]
+
+\end{enumerate}
+
+\qed
+
+Now, consider $\gamma_\psi:k[G]\to k[G]$. This is zero as $\gamma_\psi$ acts as zero on every irrep (because it pairs to zero with all the irreps), and because it sends $1$ to $\gamma_\psi$, $\gamma_\psi$ has to be zero. 
+
+\qed
+
+\cor(of earlier claim)
+
+$\frac{\dim\rho_i}{|G|}\gamma_{\chi_{\rho_i^v}}$ acts as $1$ on $\rho_i$, and 0 on $\rho_j$, for $\rho_i\neq\rho_j$ are irreps. 
+
+\proof
+
+\qed
+
+\cor
+
+Given any $V = \oplus\rho_i^{\oplus n_i}$, 
+\[
+\frac{\dim\rho_i}{|G|}\gamma_{\chi_{\rho_i^v}}
+\]
+acts as a projection onto $\rho_i^{n_i}\subseteq V$, which is called the $\rho_i$ isotypic part of $V$. 
+
+\cor
+
+$\#$irreps of $G = \#$conjugacy classes of $G$
+
+\proof
+
+Let $\{\rho_i\}$ be the irreps of $G$ (up to conjugacy (i.e isomorhpism)). 
+
+Then $\{\chi_{\rho_i}\}$ is a basis for $Cl(G)$, so $\#$ of irreps = $\dim_kCl(G) = \#$conjugacy classes of $G$.
+
+Remark: These two numbers are equal, but there is no natural or canonical bijection between the two sets in general.
+
+\section*{\underline{Classifying rep'ns}}
+
+\thm $G$ is abelian iff all irreps of $G$ are 1-dimensional.
+
+\proof
+
+Let $V$ be an irrep. If $G$ is commutative, then $\cdot g :V\to V$ is a $G$-homomorphism for all $g\in G$. 
+
+By Schur, each $g \in G$ acts as a scalar. Now every subspace of $V$ is a subrep, hence $V$ is 1-dimensinoal. 
+
+Now suppose that all irreps are 1-dimensional. Let $n_i$ be the dimensions of the irreps $\rho_i$, and let $c$ be the number of conjugacy classes (or equivalently the number of irreps) of $G$. Then $|G| = \sum_in_i^2$, but this is at least $c$, because we are taking the sum of $c$ positive numbers, but each $n_i$ is 1, so each element of $G$ is its own conjugacy class. 
+
+\qed
+
+\exm
+
+Take $G = \Z/n\Z$
+
+For each element $\zeta \in \mu_n \eqdef $nth roots of unity, consider $\chi_\zeta:\Z/n\Z \to k^*, a \mapsto \zeta^a$
+
+This gives $n$ distinct reps, which is the number of conjugacy classes, hence we have a complete list. 
+
+\exm
+
+$S_3$ has conjugacy classes $[e], [(12)], [(123)]$, so there are 3 irreducible representations. We have a trivial representation, whose character sends all conjugacy classes to 1. 
+
+We also have $sgn:S_3\to\{\pm1\}\subseteq k^*$, so $\chi_{sgn}$ sends $[e]$ to 1, $[(12)]$ to -1, and $[(123)]$ to 1. 
+
+At this point we know there must be a third representation, $std$, and we can fill in its row in the character table somehow. $std$ is given by $S_3 \curvearrowright \C^{\{1,2,3\}}/\begin{pmatrix} 1 \\ 1 \\ 1 \end{pmatrix}$, with $\chi_{std} = \chi_{\C^{\{1,2,3\}}} - \chi_{triv}$, so $\chi_{st}(e) = 2, \chi_{std}(12) = 0, \chi_{std}(123) = -1$. 
+
+We claim that $\chi_{std}$ is irreducible. To see this, we compute 
+\[
+\langle\chi_{std},\chi_{std}\rangle=\frac{1}{6}(2^2 + 3*0^2 + 2(-1)^2) = 1. 
+\]
+
+\exm
+
+$Q_8 = \langle \pm1,\pm i,\pm j, \pm k\rangle$, with multiplication given as in the quaternion group, $i^2 = j^2 = k^2 = ijk = -1$. 
+
+Conjugacy classes: $(e)$,$-1$, $\{\pm i\}$,$\{\pm j\}$,$\{\pm k\}$. 
+
+$\chi_{triv}$ sends them all to 1, of course. 
+
+\section*{Lecture 5, 21/1/25}
+
+\begin{center}
+\begin{tabular}{ c| c c c c c }
+ & 1 & -1 & \{i, -i\} & \{j,-j\}&\{k,-k\} \\
+\hline
+triv & 1 & 1 & 1 & 1 & 1 \\
+i-ker & 1 & 1 & 1 & -1 & -1 \\
+j-ker & 1 & 1 & -1 & 1 & -1 \\
+k-ker & 1 & 1 & -1 & -1 & 1 \\
+$?$ & $\cdots$&$\cdots$ &$\cdots$ &$\cdots$ &$\cdots$  \\
+\end{tabular}
+\end{center}
+
+Let $\mathbb{H} = \R\langle 1, i, j, k \rangle$. Then $Q_8 \curvearrowright \mathbb{H}$ by left multiplication, $\mathbb{H} \curvearrowleft \C$ by multiplication by $i$ on the right. This example might be useful to think about for the homework. 
+
+Now let's get the character table for $S_4$. 
+\begin{center}
+\begin{tabular}{c | c c c c c}
+\text{conj class} & 0 & (12) & (123) & (12)(134) & (1234) \\
+\text{size} & 1 & 6 & 8 & 3 & 6 \\
+\hline 
+sgn & 1 & -1 & 1 & 1 & -1 \\
+$std = \C^4/\begin{pmatrix}1\\1\\1\\1\end{pmatrix}$ & 3 & 1 & 0 & -1 & - 1 \\
+$std\otimes sgn$ & 3 & -1 & 0 & -1 & 1 \\
+$std\circ\pi_{4\to3}$ & $\cdots $ & $\cdots$ & $\cdots$ & $\cdots$ & $\cdots$ 
+\end{tabular}
+\end{center}
+If $S_4$ is the symmetries of a tetrahedron, then $\pi_{4\to3}$ is the map from $S_4$ to $S_3$ furnished by $S_4$ acting on pairs of sides, of which there are 3. 
+
+\underline{How does the structure of $G$ interact with its representation theory?}
+
+\prop(Homework) 
+
+Let $G, H$ be groups, (NOT necessarily finite!), $k = \bark$ algebraically closed.
+
+Then any irrep of $G\times H$ has the form $V\boxtimes W$, where
+\begin{itemize}
+
+\item $V$ is an irrep of $G$,
+
+\item $W$ is an irrep of $H$
+
+\item $(g,h)\cdot v\boxtimes w = (g\cdot v)\boxtimes (h\cdot w)$
+
+This is the same as tensoring the two reps of $G\times H$ we get from 
+\[
+\begin{tikzcd}
+& G \ar[r] & \GL(V) \\
+G\times H \ar[ur] \ar[dr] & & \\
+& H \ar[r] & \GL(W) \\
+\end{tikzcd}
+\]
+
+\end{itemize}
+
+\proof
+
+HW
+
+\qed
+
+We have now classified (modulo the homework) all representations of all finite abelian groups. 
+
+In some sense, (the sense of Artin's theorem) is that the representation theory of a group is controlled by the rep theory of its abelian subgroups. 
+
+\underline{Restriction \& induction}
+
+Let $H \subseteq G$ be a subgroup of $H$, $G$ again finite. 
+
+We have a restriction functor $Res_H^G: Rep_G\to Rep_H$, 
+\[
+(\rho:G\to\GL(W)) \mapsto \rho|_H
+\]
+There is a functor going the other way called induction, $Ind_H^G:Rep_H\to Rep_G$. 
+
+\defn
+
+Let $V$ be an $H$-representation. Then 
+\[
+Ind_H^GV \eqdef k[G]\otimes_{k[H]}V
+\]
+
+Equivalent descriptions: 
+
+\[
+Ind_H^G(V) \eqdef \{\phi:G\to V \mid \phi(gh^{-1}) = h\phi(g)\forall g \in G, h \in H\}
+\]
+
+An element of the former looks like $\sum_g e_g\otimes v_g$. Take $e_ge_h\otimes v = e_g\otimes (h\cdot v)$, $g\cdot \phi = g\phi(g^{-1}-)$. Think about this and see how this makes the descriptions the same. One more description: 
+\[
+Ind_H^G(V) = \bigoplus_{g\in G/H}g_i\cdot V
+\]
+where $g\cdot \sum g_iv_i = \sum g_{j(i)}k_i \cdot V $ where $g_jg_i = g_{j(i)}$ (???)
+
+Exercise: check the above is equivalent to the other two things. 
+
+\exm
+\,
+\begin{enumerate}
+
+\item $Ind_H^G triv = k^{G/H}$ follows from second description. By definition, $Ind_H^Gtriv = \{f:G\to k\mid f(gh^{-1}) = h\cdot f(g) = f(g)\} = \{f:G/H\to k\}$
+
+\item $Ind_{(1)}^Gk = k[G] \otimes_kk = k[G]$
+
+\item Suppose $\chi:H\to\C^\times$ is a representation. What is $Ind_H^G\chi$? To find $Ind_H^G\chi(g)$, pick coset representative $g_i$ from $G/H$, and we get permutation matrix for $G\curvearrowright G/H$ times the diagonal matrix whose $i$th entry is $\chi(h_i)$, where $gh_i^{-1} = g_{j(i)}h_i^{-1}$
+\end{enumerate}
+
+\section*{Lecture 6, 23/1/25}
+
+Corrections:
+
+In the homework, problem 4 part a) should include the assumption that the action of $G$ on $H$ by conjugation is inner, i.e. for all $g \in G$, the map $(\cdot)^g:H\to H$ sending $h \mapsto g h g^{-1}$ is $(\cdot)^{h'}$ for some $h' \in H$. 
+
+Remark: An example is if we take $G = A\times B, H = A\times\{1\}$. Then $(\cdot)^{(a,b)} = (\cdot)^{(a,1)}$
+
+Last time:
+\begin{itemize}
+
+\item We did character tables for $Q_8,S_4$ 
+
+\item We stated the classification of irreducible representations of a product $G\times H$
+
+\item Classification of irreps of finite abelian groups
+
+\item Restriction \& induction
+
+\end{itemize}
+
+Here is more on induction: 
+
+$\Ind_H^G(V) \eqdef k[G]\otimes_{k[H]}V$, where $k[G]$ is a right module and $V$ is a left one. Tensoring a right with a left yields an abelian group (indeed a $k$-vector space), and it all works out because $k[G]$ is a left $k[G]$ module. 
+
+It is also the set $\{\phi:G\to V \mid \phi(gh^{-1}) = h\cdot\phi(g)$ for all $g \in G, h \in H\}$, where 
+\[
+g\cdot\phi = \phi(g^{-1}\cdot)
+\]
+
+\underline{Explanation}
+
+An element of $k[G]\otimes_{k[H]}V$ is a formal sum $\sum e_g\otimes v_g$ such that $e_ge_h\otimes v = e_g\otimes(h\cdot v)$
+
+How to recognize induced representations:
+
+\begin{itemize}
+
+\item Suppose $V$ is a $G$-rep, $W \subseteq V$ is $H$-stable. When is $V \simeq \Ind_H^GW$?
+
+\item Consider $gW\subseteq V$. Because $W$ is $H$-stable, this only depends on $[g]\in G/H$
+
+\end{itemize}
+
+\prop 
+
+$V = \Ind_H^GW$ if and only if $V = \oplus_{g\in G/H}gW$
+
+\proof
+
+Sketch
+
+Recall the third version, $\Ind_H^GV = \oplus_{g_i\in G/H}g_iU$
+
+\qed
+
+\prop
+
+\begin{align*}
+\chi_{\Ind_H^G\rho}(u) & = \frac{1}{|H|} \sum_{g\in G, g^{-1}ug \in H}\chi_\rho(g^{-1}ug) \\
+& = \sum_{x\in G/H}\hat{\chi}_\rho(x^{-1}ux)\\
+\end{align*}
+
+where $\hat{\chi}_\rho(v) = \begin{cases} \chi_\rho(v) & v \in H \\ 0 & \text{ otherwise } \\ \end{cases}$
+
+\proof
+
+\qed
+
+\prop 
+
+Let $H \subseteq G$ be a subgroup of finite index. Then 
+\[
+\Hom_G(\Ind_H^GV,W) \simeq \Hom_H(V, \Res_G^HW)
+\]
+
+\proof
+
+This is a special case of the tensor-hom adjunction: 
+\begin{align*}
+\Hom_G(\Ind_H^GV,W) & \simeq \Hom_G(k[G]\otimes_{k[H]}V, W) \\
+& = \Hom_H(V,\Hom_G(k[G],W)) \\
+& = \Hom_H(V, \underbrace{W}_{ \text{as an H-rep}} )\\
+& = \Hom_H(V,\Res_G^HW)
+\end{align*} 
+
+\qed
+
+\cor
+
+Let $V$ be a representation of $H$, $W$ is a representation of $G$, both finite. Then 
+\[
+\langle \chi_{\Ind_H^GV},\chi_W\rangle = \langle \chi_V, \chi_{\Res_G^HW}\rangle
+\]
+
+\proof
+
+These numbers are the dimensions of the hom-spaces, which are the same by the above. 
+
+\qed
+
+\thm[Artin]
+
+Let $G$ be a finite group, $k = \bark, char k = 0$. Then the map
+\[
+\bigoplus_{H\subseteq G \text{cyclic}}Cl(H)\onto Cl(G)
+\]
+For each cyclic group $H$, it acts on characters linearly, so we can extend that to $Cl(H)$, and we can extend that to $\oplus Cl(H)$
+\proof
+
+Remark: Let $G$ be a finite group, $R(G)$ be the ``representation ring of $G$", 
+\[
+R(G) = \oplus_{\rho_i\text{ irreps of }G}\Z[\rho_i]
+\]
+
+with $[\rho_i]\cdot[\rho_j] = [\rho_i\otimes\rho_j]$, by writing $\rho_i\otimes\rho_j = \bigoplus_{\rho_k\text{ irreps }}\rho_k^{n_k}$
+
+\prop
+
+There is a map $R(G) \to Cl(G)$ sending $[\rho_i] \to \chi_{\rho_i}$. This is a ring homomorphism (because character of tensor product is pointwise product of characters).
+
+There is an induced map $R(G) \otimes_{\Z}k \to Cl(G)$ which is an isomorphism. 
+
+\proof
+
+\,
+\begin{enumerate}
+
+\item These are vector spaces of the same dimension
+
+\item The map is surjective because (for example,) characters of irreps span. 
+\end{enumerate}
+
+\qed
+
+\cor[to Artin's theorem]
+
+The map (linear extension of $\oplus\Ind_H^G$)
+\[
+\bigoplus_{H\leq G\text{ cyclic }}R(H)_k\to R(G)_k
+\]
+is surjective.
+
+I.e. every representation of $G$ is a ``k-linear combo" of irreps induced from cyclic subgroups. 
+
+\cor
+\,
+\begin{enumerate}
+
+\item $\oplus_{H\leq G\text{ cyclic }} R(H)_\Q\to R(G)_\Q$ is surjective, i.e. every irreducible character of $G$ is a $\Q$-linear combination of characters induced from cyclic subgroups.
+
+\item $\oplus_{H\leq Q \text{ cyclic }}R(H)\to R(G)$ has finite cokernel.
+
+\end{enumerate}
+
+\proof
+\,
+\begin{itemize}
+
+\item $(1)\implies(2)$ because the image of $\Ind$ spans $R(G)$ rationally by (1), i.e. given $x \in R(G)$, there is $N$ such that $N\cdot x \in \Im(\Ind)$, so the cokernel is torsion, and torsion finitely generated abelian groups are finite. 
+
+\item We know $(1)$ by Artin, because $\Ind_\Q\otimes_\Q k$ is surjective, as rank $r$ invariant under extension of scalars?
+
+\end{itemize}
+
+\qed
+
+We now prove Artin's theorem:
+
+\proof
+
+It is enough to show that the adjoint map of $\oplus\Ind_H^G$ is injective. But $\langle \Ind \chi, \psi \rangle = \langle \chi, \Res \psi \rangle$, so 
+\[
+\bigoplus\Res_G^H :Cl(G) \to \bigoplus_{H\leq G\text{ cyclic }}Cl(H)
+\]
+is adjoint to $\Ind$. Now let $\psi$ be in the kernel; then $\Res_G^H\psi \equiv 0$ for all $H$, which implies $\psi \equiv 0$, so we win. 
+
+\qed
+
+\subsection*{\underline{Loose ends:}}
+
+\begin{itemize}
+
+\item Structure of $k[G]$
+
+\item Integral theory
+
+\item Corollary of all this discussion: if $G$ is a finite group, $\rho$ an irrep, then $\dim\rho \mid |G|$
+
+\end{itemize}
+
+\subsection*{\underline{Structure of $k[G]$ (and more generally, semisimple algebras)}}
+
+\defn
+
+Let $k$ be a field, $R$ a $k$-algebra (possibly non-commutative). Then $R$ is \underline{semisimple} if 
+\,
+\begin{enumerate}
+
+\item $R$ is finite dimensional as a $k$-vector space
+
+\item All left $R$-modules which are finite-dimensional $k$-vector spaces are semisimple. 
+
+\end{enumerate}
+
+\thm
+
+Let $R$ be semisimple $k$-algebra. Then 
+\[
+R \simeq \prod\Mat_{n_i}(D_i)
+\]
+where $D_i$ are division $k$-algebras.
+
+\proof (Take $R = k[G]$)
+
+Conside $R$ as a left $R$-module;
+\[
+R \simeq \oplus M_i^{\oplus n_i}
+\]
+where $M_i$ is simple, all $M_j$s are mutually non-isomorphic left $R$-modules.
+
+ Note $\Hom_{\Rmod}(M_i,M_i)$ is a division algebra (otherwise we would have a morphism with a kernel, but $M_i$ is simple). 
+
+Because $R^{op} \simeq \Hom_{\Rmod}(R,R)$, this means 
+\[
+R \simeq \Hom_{\Rmod}(\oplus M_i^{\oplus n_i}, \oplus M_i^{\oplus n_i})
+\]
+
+Now, $\Hom_{\Rmod}(M_i,M_j) = 0$ for $i \neq j$ (again by simplicity and mutual nonisomorphicness) so 
+\[
+\Hom_{\Rmod}(R,R) \simeq \oplus_i \Hom_{\Rmod}(M_i^{n_i},M_i^{n_i})
+\]
+
+So if we take $D_i^{op} = \Mat_{n_i}(\Hom(M_i,M_i))$, we win. 
+
+\qed
+
+\cor
+
+Let $k = \bark$. Then $R \simeq \oplus \Mat_{n_i}(k)$
+
+\proof
+\,
+\begin{enumerate}
+
+\item Finite dimensional central division algebras over an algebraically closed field are the field itself. 
+
+\item Or, same proof as in Schur, 
+\[
+\Hom_{\Rmod}(M_i,M_i) = k
+\]
+
+\end{enumerate}
+
+\qed
+
+Let's specialize to $R = k[G]$. 
+
+As a $k[G]$-module, $k[G] \simeq \rho_i^{\oplus n_i}$, so we have a map
+\[
+k[g]\to\bigoplus_{\rho_i\text{ irrep }} \underline{\Hom}_k(\rho_i,\rho_i) \simeq \oplus_{\rho_i\text{ irrep }}\rho_i\boxtimes\rho_i^v \simeq \oplus_{\rho_i\text{ irrep }}\rho_i\otimes\Hom(\rho_i,k[G])
+\]
+\[
+x \mapsto \text{right multiplication by } x
+\]
+
+Recall: If $V$ is any $G$-rep, then $V = \oplus \rho_i\otimes\Hom_G(\rho_i,V)$, 
+
+so we have $k[G] \to \oplus \End(\Hom(\rho_i, k[G]))$
+
+\claim
+
+This isomorphism of rings is $G\times G$-equivariant if we give $\End(\rho_i^{\dim\rho_i})$ the $G\times G$ structure $\rho_i\boxtimes\rho_i^v$
+
+\proof
+
+We need to check $\End(\rho_i^{\dim_i})$ as a right $G$-module it is $(\rho_i^v)^{\dim \rho_i}$.
+
+If $G \into G\times G$ by $g\mapsto (g, g^{-1})$, then it has an invariant in $\Hom_G(\rho_i^{\dim \rho_i},\rho_i^{\dim\rho_i})$, 
+
+As $G$-reps, $\Hom(\rho_i,\rho_i) \simeq \rho_i\otimes\rho_i^v$
+
+\claim
+
+Given a rep $V\boxtimes W$ of $G\times G$, the structure of $V$ and $V\boxtimes W|_{(g, g^{-1})}$ determines $W$.
+
+\proof
+
+\qed
+
+\section*{Lecture 7, 28/1/25}
+
+Substitute for today: Dr Jacob Tsimerman
+
+Let $k = \bark$ be an algebraically closed field of characteristic $0$, $G$ a finite group. 
+
+Let $(\rho_1,V_1), \dots, (\rho_n,V_n)$ be the irreducible left representations of $G$. 
+
+\thm
+\[
+k[G] \cong \bigoplus_{i=1}^n\rho_i\boxtimes\rho_i^v = \bigoplus_{i=1}^nV_i\otimes V_i^*
+\]
+as $G\times G$-reps $((g,g')\cdot v\otimes v^* = (g\cdot v)\otimes v^* + v\otimes (g'\cdot v^*))$
+
+\proof
+
+Let $W_i \eqdef \Hom_G(V_i, k[G])$. Then 
+\[
+k[G] \cong \bigoplus_{i=1}^nV_i\otimes W_i
+\]
+as $G\times G$-representations because we get the right $G$-action for free. 
+
+\claim
+
+As right $G$-representations, $W_i \cong V_i^*$
+
+\proof
+\,
+
+\underline{Convention:} Given an element $x = \sum_{g\in G}a_g(x)g \in k[G]$, we use $a_g:k[G] \to k$ to denote the $g$-th coefficient. 
+
+This has the property that $a_g(x\cdot g') = a_{g'g^{-1}}(x)$
+
+Define $\psi:W_i \to V_i^*$ by 
+\[
+\psi(\phi)\eqdef a_1\circ\phi
+\]
+
+\claim
+
+$\psi$ is an isomorphism
+
+\proof
+
+Suppose $\phi\in W_i$. For $g \in G$, $a_g(\phi(v)) = a_1(g^{-1}\phi(v))$. But $\phi$ is a map of left $G$-modules, so this is $a_1(\phi(g^{-1}(v))) = \psi(\phi)(g^{-1}v)$. 
+
+So, we can write
+\[
+\phi(v) = \sum_{g\in G}\psi(\phi)(g^{-1}v)\cdot v
+\]
+ 
+So $\phi$ is entirely determined by $\psi(\phi)$, or in other words, $\psi$ is injective.
+
+On the other hand, let $\ell \in V^*$. 
+
+Consider $\phi_\ell \in W_i$, $\phi_\ell(v) = \sum_{g\in G}\ell(g^{-1}v)\cdot g$
+
+\claim
+
+$\phi_\ell \in W_i$
+
+\proof
+
+Let $g_0 \in G$. Then 
+\[
+\phi_\ell(g_0v) = \sum_{g\in G}\ell(g^{-1}g_0v) = \sum_{g\in G}\ell(g^{-1}v)\cdot g_0g = g_0\cdot\phi_\ell(v)
+\]
+
+This shows that $\psi$ is surjective.
+
+\qed
+
+\claim
+
+$\psi$ respects the right $G$-action. 
+
+\proof
+
+\begin{align*}
+\psi(\phi^{g_0})(v) & = \psi(\phi)(g_0v) \\
+& = a_1(\phi(g_0v))\\
+& = a_1(g_0\phi(v)) \\
+& = a_{g_0^{-1}}(\phi(v)) \\
+\end{align*}
+
+On the other hand, 
+\begin{align*}
+\psi(\phi^{g_0}v) & = a_1(\phi^{g_0}(v)) \\
+& = a_1(\phi(v)g_0) \\
+& = a_{g_0^{-1}}(\phi(v))
+\end{align*}
+So $\psi(\phi^{g_0}) = \psi(\phi)^{g_0}$
+\qed
+
+This proves the theorem. 
+\qed
+
+\underline{Matrix Coefficients}
+
+Let $\{v_1, \dots, v_n\}$ be a basis for an irreducible representation $V$. 
+
+Let $\{v_1^*, \dots, v_n^*\}$ be the dual basis for $V^*$.
+
+\defn
+
+Given $1 \leq i, j \leq m$, the \underline{matrix coefficient $a_{i,j}$} is given by 
+\[
+a_{i,j}(g) = v_i^*(g\cdot v_j)
+\]
+This is a function from $G$ to $k$. 
+
+Define $A_{i,j} \in k[G]$ by 
+\[
+A_{i,j}\eqdef \sum_{g\in G}a_{i,j}(g)\cdot g 
+\]
+
+\thm
+\[
+\langle A_{i,j}\rangle_{1\leq i, j\leq m} = \rho\boxtimes\rho^v
+\]
+where $(\rho,V)$ is the $G$-rep.
+
+\proof
+
+\qed
+
+\thm
+
+Let $G$ be a finite group, $k = \bark$ an algebraically closed field of characteristic 0. 
+
+Let $(\rho,V)$ be an irreducible representation of $G$. 
+
+Then $\dim V \mid |G|$
+
+\proof
+
+\cor
+
+If $d_1, \dots, d_n$ is the dimensions of the irreps of $G$, then 
+\begin{enumerate}
+
+\item $m = $number of conjugacy classes of $G$ (often called $m$)
+
+\item $d_i | |G|$ for all $i$
+
+\item $\sum_{i=1}^m d_i^2 = |G|$
+
+\end{enumerate}
+
+\proof
+
+\qed
+
+\exm
+
+If $G = S_3$, $m = 3$, with conjugacy classes $[\Id], [(12)],[(123)]$, then we have $d_1 = 1, 1 + d_2^2 + d_3^2 = 6, d_2, d_3 \mid 6$. 
+
+So we must have $d_2 = 1, d_3 = 2$. 
+
+\underline{Recollections of algebraic integers}
+
+\defn
+
+Let $R$ be a commutative ring. 
+
+Then $x \in R$ is \underline{integral}, or an \underline{algebraic integer}, if $x$ satisfies a monic integer polynomial. 
+
+\exm
+\,
+\begin{itemize}
+
+\item 3
+
+\item $\sqrt{5}$
+
+\item $\frac{1+\sqrt{5}}{2}$
+
+\end{itemize}
+
+Non-examples include
+\begin{itemize}
+
+\item $\frac37$
+
+\item $\frac{1}{\sqrt{2}}$
+
+\end{itemize}
+
+\prop
+
+The following are equivalent:\,
+\begin{enumerate}
+
+\item $x$ is integral
+
+\item The subring generated by $x$ is a finitely generated $\Z$-module
+
+\item The subring generated by $x$ is contained in a finitely generated $\Z$-module in $R$. 
+
+\end{enumerate}
+
+\proof
+
+Let's start with $(1)\implies(2)$. 
+
+Suppose $x^N + \sum_{i=1}^{N-1}a_ix^i = 0$, $a_i \in \Z$. 
+
+Then $x^N \in \langle1,x,\dots,x^{N-1}\rangle_\Z$. But then $x^{N+1} \in \langle 1, x, \dots, x^N\rangle_\Z$, so $x^{N+1} \in \langle 1, x, \dots, x^{N-1}\rangle_\Z$.
+
+So the subring generated by $x$ equals $\langle 1, x, \dots, x^{N-1}\rangle_\Z$.
+
+$(2)\implies(3)$ is clear
+
+So let's see $(3)\implies(1)$. 
+
+Let $A_N = \langle 1, x, x^{N-1}\rangle_\Z$. By assumption, there exists a finitely generated $\Z$-module $B \subset R$ such that $A_1\subseteq A_2 \subseteq\cdots \subseteq B$ 
+
+By Noetheriality, the sequence stabilizes, so there exists some $M$ such that $A_M = A_{M-1}$, and so $x^M$ is a finite linear combination of lower powers of $x$, so there are $a_i$ such that
+\[
+x^M + \sum_{i=1}^{M-1}a_ix^i = 0
+\]
+
+\cor
+
+The things on the list of non algebraic integers actually belong on the list!
+
+\proof
+
+\qed
+
+\section*{Lecture 8, 30/1/25}
+
+Sub Prof: Mathilde Gerbelli-Gauthier
+
+End Goal: $G$ finite, $\rho$ irrep of $G$ over $k = \bark$ algebraically closed of characteristic 0. We want to show that $\dim \rho \mid |G|$
+
+Strategy: Prove that $\frac{|G|}{\dim\rho}$ is an algebraic integer
+
+As a corollary of the proof of the last prop, we get
+
+\cor
+
+Integral elements of $R$ form a subring. 
+
+\proof
+
+\qed
+
+\subsection*{\underline{Integrality of characters}}
+
+As always, let $G$ be a finite group, $k = \bark$ algebraically closed of characteristic 0, and $\rho:G\to\GL_n(k)$ just any representation (not necessarily irreducible).
+
+\prop
+\,
+\begin{enumerate}
+
+\item The values of the character of $\rho, \chi_\rho(g)$, are algebraic integers
+
+\item Let $u = \sum_{g\in G}u(g)g$ be an element of $Z(k[G])$. Suppose that $u(g) \in k$ are algebraic integers. Then $u$ is integral. 
+
+\end{enumerate}
+
+At some point in the classes I missed we show that the indicators of conjugacy classes span the center of $k[G]$. 
+
+\proof
+\,
+\begin{enumerate}
+
+\item $\chi_\rho(g)$ is a sum of roots of unity, hence a sum of algebraic integers, hence an algebraic integer.
+
+\item Using a previous result, let $u(g)$ be the indicator function of a conjugacy class. But the sub-$\Z$-module of $Z(k[G])$ generated by the indicator functions is a subring (because the product of $1_{C_1}\cdot 1_{C_2}$ is a linear combination of the indicators of conjugacy classes, and the coefficient in front of each $g$ is an integer). 
+
+Thus each indicator of a conjugacy class is contained in a finitely generated $\Z$-module, and is integral. 
+
+\end{enumerate}
+
+\qed
+
+\cor
+
+Let $\rho$ be an irrep of $G$ and let $u \in Z(k[G])$ be as before. Then
+\[
+u_\rho = \frac{1}{\dim\rho}\sum_{g\in G}u(g)\chi_\rho(g) \in k
+\]
+is an algebraic integer. 
+
+\proof
+
+\claim
+
+Given $\rho$, $u \mapsto\frac{1}{\dim\rho}\sum u(g)\chi_\rho(g)$ is a ring homomorphism
+
+\proof
+
+\[
+u_1 * u_2 \mapsto \left(\frac{1}{\dim\rho}\sum u_1(g)\chi_\rho(g)\right)\left(\frac{1}{\dim\rho}\sum u_2(g)\chi_\rho(g)\right)
+\]
+
+\qed
+
+The goal will be to define a ring-hom from $Z(k[G])$ to $k$ sending $u$ to $u_\rho$. Since $u$ is integral , it maps to to an integral element of $k$. 
+\[
+u \mapsto \frac{|G|}{\dim\rho}\langle u, \chi_{\rho^v}\rangle = u_\rho
+\]
+\[
+\sum u'(g)\chi_\rho(g) = |G|\langle u, \rho^v\rangle
+\]
+
+Recall that $Z(k[G]) \curvearrowright\rho$ by $G$-homomorphism, that action induces a natural map 
+\[
+Z(k[G]) \mapsto \Hom_G(\rho,\rho) = k
+\]
+So
+\[
+u \mapsto \frac{|G|}{\dim\rho}\langle u,\chi_{\rho^v}\rangle
+\]
+The matrix is scalar, so it suffices to compute its trace. Its trace is 
+\[
+\sum_{g\in G} u(g)\chi_{\rho}(g) = |G|\langle u,\chi_{\rho^v}\rangle
+\]
+Dividing by $\dim\rho$ gives the result. 
+
+\qed ?
+
+\thm
+
+Let $G$ be a finite group, $k = \bark$ an algebraically closed field of characteristic 0, $V_\rho$ an irrep of $G$. Then $\dim V \mid \|G|$
+
+\proof
+
+Set $u = \sum_{g\in G}\chi_\rho(g^{-1})g$. By the above, we have 
+\begin{align*}
+\frac{1}{\dim\rho}\sum u(g)\chi_\rho(g) & = \frac{|G|}{\dim\rho}\langle\chi_{\rho^v},\chi_{\rho^v}\rangle \\
+& = \frac{|G|}{\dim\rho}\underbrace{\dim\Hom_G(\rho^v,\rho^v)}_{=1} \\
+& = \frac{|G|}{\dim\rho}
+\end{align*}
+But the left hand side is an integral element of $\Q$, so the right hand side is an integral element of $\Q$, hence an integer. 
+
+\qed
+
+\subsection*{\underline{Rep theory of the symmetric group}}
+
+As always, $|G|<\oo, Char (k = \bark) = 0$
+
+Here are some key facts about the symmetric groups: 
+\begin{enumerate}
+
+\item The number of irreps of $S_n$ is equal to the number of conjugacy classes in $S_n$. 
+
+\item The conjugacy classes in $S_n$ (aka cycle type) are in bijection with partitions of $n$. 
+
+\item The irreps of $S_n$ are also indexed by partitions of $n$. 
+
+\end{enumerate}
+
+\defn
+
+A \underline{partition of $n$} is a sequence $\lambda = (\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_r)$ such that $\sum\lambda_i = n$. 
+
+\defn
+
+The \underline{young diagram} $D_\lambda$ has $\lambda_1$ boxes in the first row, $\lambda_2$ in the second row, etc.
+
+For example, the corresponding diagram for $\lambda = (4,3,1)$ 
+\[
+\ytableausetup{centertableaux}
+\begin{ytableau}
+\,& & & \\
+& &  \\
+& \\
+\end{ytableau}
+\]
+
+The conjugate partition $\lambda'$  is the one such that $D_{\lambda'}$ is obtained by $D_\lambda$ by flipping along the diagonal. 
+
+If $\lambda = (4,3,1), \lambda' = (3,2,2,1)$. Then $D_{\lambda'}$ is
+
+\[
+\ytableausetup{centertableaux}
+\begin{ytableau}
+\,& & \\
+& \\
+& \\
+\\
+\end{ytableau}
+\]
+
+\subsection*{\underline{Proejctions and young symmetrizers}}
+
+An algorithm: start with $\lambda$
+
+\begin{enumerate}
+
+\item Number the booxes in your Young diagram $D_\lambda$ from left to right, top to bottom: you now have a young tableaux. 
+\[
+\ytableausetup{centertableaux}
+\begin{ytableau}
+1 & 2 & 3 & 4 \\
+5 & 6 & 7 \\
+8
+\end{ytableau}
+\]
+
+\item Let $\cdot P \subseteq S_n$ be the subgroup of all permutations that preserve each row of our Young tableaux. E.g. $P \simeq S_4\times S_3 \into S_8$. 
+
+\item $Q \subseteq S_n$ the subgroup that preserves each column of the same Young tableau e.g. $Q \simeq S_3 \times S_2 \times S_2 \into S_8$. 
+
+In $\C[S_n]$, define $a = \sum_{p\in P}e_p, b = \sum_{q\in Q}sgn(q)e_q$
+
+\item Suppose that $V$ is a vector space, and $S_n \curvearrowright V^{\otimes n}$ by permuting factors. 
+
+The element $a$ symmetrizes along the rows, and projects onto 
+\[
+Sym^{\lambda_1}(V) \otimes \cdots \otimes Sym^{\lambda_n}(V)
+\]
+up to an isomorphism.
+
+\item The element $b$ alternates along the columns and projects onto a tensor product of exterior powers indexed by $\lambda'$: 
+\[
+\bigwedge^{\lambda'_1}(V)\otimes \cdots \otimes \bigwedge^{\lambda'_n}(V)
+\]
+
+\item Set $c = ab$. This is called the \underline{Young Symmetrizer}
+
+Here are some examples of Young symmetrizers:
+If $\lambda = (1, \dots, 1)$, then $c$ gives the sign representation. $\lambda = (n)$ gives the trivial rep.
+
+\end{enumerate}
+
+\subsection*{\underline{Irreducibility and idempotency}}
+
+\thm
+
+A suitable nonzero scalar of $c = ab$ is an idempotent in $\C[S_n]$. Its image, when acting on the regular representation, is irreducible, and denoted $V_\lambda$.
+
+Distinct partitions give rise to distinct (meaning nonisomorphic) representations and every irep arises from this process for a unique partition.
+
+\cor
+
+Every representation of $S_n$ is defined over $\Q$.
+
+\proof
+
+\qed
+
+\exm
+\,
+\begin{itemize}
+
+\item For $S_3$, $triv = (4), sgn = (1,1,1), std = (2,1)$ 
+
+\item For $S_4$, $triv = (4), sgn = (1,1,1,1), std = (3, 1), std \otimes sgn = (2,1,1), S_4 \to S_3 = (2,2)$ 
+
+\item In general, $(d,1,\cdots,1)$ corresponds to various exterior powers of the standard representation.
+
+\end{itemize}
+
+\thm(Hook-length formula)
+
+Label each box $b$ in a young diagram (boxes to the right of $b$) $+$ (boxes below). 
+
+These are called hook lengths. Then $\dim V_\lambda = \frac{n!}{\prod (\text{hook lengths of $b$})}$
+
+\proof
+
+\qed
+
+\section*{Lecture 9, 4/2/25}
+
+Let $n \in \Z_{>0}$. Our goal is to classify irreps of $S_n$. Recall:
+
+\thm
+
+For each partition $\lambda$ of $n$, there exists a unique isomorphism class of irrep $V_\lambda$ of $S_n$, constructed as follows: 
+\[
+\ytableausetup{centertableaux}
+\begin{ytableau}
+\,& & & & & \lambda_1 \\
+& & & \lambda_2 \\
+& & \lambda_3 \\
+& \lambda_4 \\
+\end{ytableau}
+\]
+where $\sum\lambda_i = n$
+We let $R$ be the subgroup of $S_n$ which preserves the rows, $Q$ the subgroup preserving the columns. We set
+\[
+a\eqdef \sum_{g\in P}e_g \in \C[S_n]
+\]
+\[
+b\eqdef \sum_{g\in Q}sgn(g)e_g \in \C[S_n]
+\]
+\[
+c = ab
+\]
+Then $V_\lambda \eqdef \C[S_n]c$ is an irrep of $S_n$. 
+
+Further, every irrep arises in this way. 
+
+\proof
+
+Summary: \, WTS
+\begin{enumerate}
+
+\item $\dim\Hom_G(V_\lambda,V_\mu) = \delta_{\mu\lambda}$
+
+\item Any irrep is some $V_\lambda$.
+
+\end{enumerate}
+
+\underline{Remark:}
+\,
+\begin{enumerate}
+
+\item There is an explicit dimension formula, the hook-length formula
+
+\item There is an explicit formula for the character of $V_\lambda$ due to Frobenius. 
+
+\end{enumerate}
+
+For more, look for Etingof's ``Representation theory" notes for a course given at MIT. 
+
+We will begin the proof by writing down $c_\lambda$. 
+
+\lem
+
+\[
+c_\lambda = \sum_{g = \underbrace{p}_{\in P_\lambda}\underbrace{q}_{\in Q_\lambda}}sgn(q)e_{pq}
+\]
+\proof
+\begin{align*}
+a_\lambda b_\lambda & = \left(\sum_{g\in P_\lambda}e_g\right) \cdot \left(\sum_{h\in Q_\lambda}sgn(h)e_h\right)\\
+& = \sum_{g\in P_\lambda, h \in Q_\lambda} sgn(h)\underbrace{e_ge_h}_{e_{gh}}
+\end{align*}
+
+\qed
+
+Goal: Compute $c_\lambda^2 = a_\lambda b_\lambda a_\lambda b_\lambda$
+
+\lem
+
+For all $x \in \C[S_n]$, $a_\lambda x b_\lambda = \ell_\lambda(x)c_\lambda$, where $\ell_\lambda:\C[S_n]\to\C$ is some linear map. 
+
+\cor
+
+$c_\lambda^2 = \ell_\lambda(b_\lambda a_\lambda)c_\lambda$
+
+\proof
+
+Check this on each $e_g \in \C[S_n]$, $g \in S_n$. 
+\begin{enumerate}
+
+\item[Case 1] $g \in P_\lambda Q_\lambda$
+
+We have $g = pq, e_g = e_pe_q$. 
+\begin{align*}
+a_\lambda e_g b_\lambda & = \left(\sum_{h \in P_\lambda}e_h\right) e_g \left(\sum_{u\in Q_\lambda}sgn(u)e_u\right) \\
+& = \underbrace{\left(\sum_{h\in P_\lambda}e_he_p\right)}_{a_\lambda}\underbrace{\sum_{u\in Q_\lambda}sgn(u)e_qe_u}_{sgn(q)b_\lambda} \\
+& = sgn(q)c_\lambda b_\lambda \\
+& = sgn(q)c_\lambda
+\end{align*}
+
+\item[Case 2] $g \not\in P_\lambda Q_\lambda$
+
+In this case, $a_\lambda e_g b_\lambda = 0$. To see this, it is enough to show that there exists a transposition $t \in P_\lambda$ such that $g^{-1}tg \in Q_\lambda$, i.e.  $g$ sends two elements of $\{1, \dots, n\}$ in the same row of the Young diagram for $\lambda$, to two elements of the same column. 
+
+It is enough to show this because
+\begin{align*}
+a_\lambda gb_\lambda & = a_\lambda t g b_\lambda \\
+& = a_\lambda g\overbrace{(g^{-1}tg)}^{sgn = -1}b_\lambda \\
+& = -a_\lambda g b_\lambda \\
+\end{align*}
+This implies $a_\lambda gb_\lambda = 0$.
+
+Now, suppose there do not exist 2 elements in the same row of $\lambda$ sent to the same column of $\lambda$ by $g$. 
+
+Then $g \in P_\lambda Q_\lambda$.
+
+To see this, let $T$ be the \underline{standard} Young Tableau for $\lambda,T' = gT$, $P'$ the stabilizer of rows of $T'$, $Q'$ the stabilizers of columns. 
+
+\begin{enumerate}[label=(\roman*)]
+
+\item By assumption, any two numbers in the first row of $T$ lie in different columns of $T'$.
+
+\item Then there exists $q_1' \in Q'$ such that $q'T'$ has the same elements in first row (perhaps in a different order). 
+
+\item Choose $p_1' \in P_\lambda$ such that $p_1'q_1'T'$ has the first row as $T$.
+
+\item Likewise with the 2nd row and so on. 
+
+\end{enumerate}
+
+
+\end{enumerate}
+
+\qed
+
+\cor
+
+\[
+\ell_\lambda(b_\lambda a_\lambda) = \frac{n!}{\dim V_\lambda}
+\]
+
+\proof
+
+later
+
+\qed
+
+\section*{Lecture 10, 6/2/25}
+
+Note: For the finite group stuff we are using ``Linear reps of finite groups" by Serre (first 3rd is for chemists apparently which is amusing). Specifically chapters 1-3, 6, 9
+
+Other stuff is also on the quercus. 
+
+To finish the proof of the theorem, we have to show that the $V_\lambda$ are irreducible and mutually non-isomorphic. Then, from a bijection between conjugacy classes and partitions, we will be done. 
+
+Last time we showed that $a_\lambda x b_\lambda = \ell_\lambda(x)c_\lambda$, and its corrolary, that $c_\lambda^2 = \ell_\lambda(b_\lambda a_\lambda)c_\lambda$
+
+\cor
+
+\[
+\ell_\lambda(b_\lambda a_\lambda) = \frac{n!}{\dim V_\lambda}
+\]
+
+\proof
+
+We know that $c_\lambda = \alpha \cdot p_\lambda$, where $p_\lambda$ is an idempotent. 
+\begin{align*}
+c_\lambda^2 & = \alpha^2p_\lambda^2 \\
+& = \alpha^2 p_\lambda \\&= \alpha c_\lambda \\
+\end{align*}
+So $\alpha = \ell_\lambda(b_\lambda a_\lambda)$ so we calculate the trace of $c_\lambda:$
+Trace of an idempotent is dim of its image, and $c_\lambda$ has the same image as $p_\lambda$
+\begin{align*}
+\tr(c_\lambda) & = \alpha\cdot\dim\Im(c_\lambda) \\
+& = \ell(b_\lambda a_\lambda)\cdot\dim\Im(c_\lambda) \\
+& = \ell(b_\lambda a_\lambda)\cdot \dim V_\lambda 
+\end{align*}
+Now, if this number is not zero, then we get an idempotent by dividing $c_\lambda$ by this number. We calculate
+\begin{align*}
+\tr(c_\lambda) & = \sum_{pq \in P_\lambda Q_\lambda} \tr(\cdot e_{pg})sgn(q) \\
+& = \tr(\cdot\Id) \\
+& = n!
+\end{align*}
+
+\qed
+
+Goal: Compute $\dim_\C\Hom_{S_n}(V_\lambda, V_\mu) = \begin{cases} 1 & \lambda = \mu \\ 0 & \text{ otherwise } \\ \end{cases}$
+
+We know $\Hom_{S_n}(V_\lambda,V_\mu)  = \Hom_{S_n}(\C[S_n]c_\lambda, \C[S_n]c_\mu)$
+
+\prop
+
+Let $A$ be a $\C$-algebra, $e \in A$ an idempotent, $M$ an $A$-module.
+
+Then $\Hom_A(Ae,M) \simeq eM$ naturally. 
+
+\proof
+
+For $x \in eM$, we have a morphism $x \mapsto (a \mapsto ax)$, and $f \mapsto f(e)$. 
+
+$e$ is an idempotent, so $1 - e$ is also an idempotent, so $1 = e + (1 - e)$, so $A \simeq Ae\oplus A(1-e)$, so $\Hom(Ae, M) \simeq \Hom(A/A(1-e),M)= \{f:A \to M \mid f(e) = f(1)\}=\{x\in M \mid x \in eM\} = eM$
+
+\qed
+
+Now let's prove the main theorem. 
+
+\prop
+
+\[
+\dim_C\Hom_{S_n}(V_\lambda,V_\lambda) = 1
+\]
+Thus, $V_\lambda$ is irreducible
+
+\proof
+
+\begin{align*}
+\Hom_{S_n}(V_\lambda,V_\lambda)&=c_\lambda \C[S_n]c_\lambda \\
+& \subseteq a_\lambda \C[S_n]b_\lambda \\
+& \subseteq \Span_{\C}(c_\lambda) \\
+\end{align*}
+So the dimension is at most 1. To see it is exactly 1, this space has $c_\lambda\cdot1\cdot c_\lambda \neq 0$
+
+So $\dim = 1$, so $V_\lambda$ is irreducible.
+
+\qed
+
+Now let $\lambda,\mu$ be two partitions of $n$. Sat $\lambda > \mu$ if the first $\lambda_i \neq \mu_i$ has $\lambda_i > \mu_i$, i.e. the lexicographical ordering. This is a total ordering, i.e. for any pair $(\lambda,\mu)$, exactly one of $\lambda = \mu, \lambda > \mu, \lambda < \mu$ is true.
+
+\prop
+
+If $\lambda > \mu$, then $a_\lambda \C[S_n]b_\mu = 0$. 
+
+\proof
+
+In a bit
+
+\qed
+
+Assuming this, then, if $\lambda\neq\mu$, we want to show that $\dim\Hom_{S_n}(V_\lambda,V_\mu) = 0$.
+
+\proof
+
+We have 
+\begin{align*}
+\Hom_{S_n}(V_\lambda,V_\lambda) & = c_\lambda\C[S_n]c_\mu \\
+& = a_\lambda b_\lambda \C[S_n]a_\mu b_\mu \\
+& \subseteq a_\lambda \C[S_n]b_\mu \\
+& = 0
+\end{align*}
+if $\lambda > \mu$. But $\dim\Hom_{S_n}(V_\lambda,V_\mu) = \dim\Hom_{S_n}(V_\mu,V_\lambda)$, so one, hence both, are 0. 
+
+\qed
+
+Now we prove the proposition
+
+\proof
+
+We will verify it on $e_g \in \C[S_n]$. 
+
+\claim
+
+There exist two numbers on the same row of the standard Young tableaux for $\lambda$, same column for $g\cdot($standard Young tableaux of $\mu$)
+
+\proof
+
+Homework
+
+\qed
+
+\exm
+
+If $g = \Id, \lambda_1 > \mu_1$, 
+\[
+\ytableausetup{centertableaux}
+\begin{ytableau}
+\,1 & 2 & 3 & 4 \\
+&  & \\
+&  \\
+\end{ytableau},
+\ytableausetup{centertableaux}
+\begin{ytableau}
+\,1 & 2 & 3 \\
+4 & 5 \\
+& \\
+\end{ytableau}
+\]
+
+Let $t$ be the transpotion for these two numbers. Then 
+\begin{align*}
+a_\lambda gb_\lambda & = c_\lambda t g b_\mu \\
+& = a_\lambda gg^{-1}tgb_\lambda \\
+& = -a_\lambda gb_\mu \\
+\end{align*}
+
+\subsection*{\underline{The rep theory of $\GL_2(\F_p)$}}
+
+\underline{Goal:} Understand the irreps of $\GL_n(\F_q)$
+
+What is the size of this group?
+
+$|\GL_2(\F_q)| = (q^2 - 1)(q^2 - q) = q(q^2 - 1)(q - 1)$
+
+\proof
+
+\[
+\GL_2(\F_q) = \{(v, w) \mid v, w \in (\F_q)^2\text{ linearly independent }\}
+\]
+So we can pick any $v$ a nonzero vector, and any $w$ not in the span of $v$. The number of such possible choices is $(q^2 - 1)(q^2 - q)$
+
+\qed
+
+\underline{Conjugacy classes:}
+
+What are the conjugacy classes of $\GL_2(\F_q)$?
+
+\begin{center}
+\begin{tabular}{c | c | c}
+Conjugacy class & number of such conjugacy classes & size of each \\
+$\pmat{x}{0}{0}{x}, x \in \F_q^\times$ & $q- 1$ & 1 \\
+$\pmat{x}{0}{0}{y}, x \neq y\in \F_q^\times$ & $\frac{(q-1)(q-2)}{2}$ & $q(q+1)$\\
+$\pmat{x}{1}{0}{x}, x \in \F_q^\times$ & $q-1$ & $q^2 - 1$ \\
+$\pmat{x}{\epsilon y}{y}{x},\epsilon$ a generator of $\F_q^\times$ & $\frac{q(q-1)}{2}$ & $q^2 - q$ \\
+\end{tabular}
+\end{center}
+For the last one, $char\neq2$
+
+What are the reps of $\GL_2(\F_q)$ over $\C$? Besides the trivial one, we also have $P^1(\F_1) = \{1-dim$ subspaces of $\F_q^2\}$.
+
+This gives a permutation representation $\C^{P^1(\F_q)}$.
+
+We have $std = \C^{P^1(\F_q)}/\C$ has dimension $q$. Let's compute the character of this representation. Let's call the first set of conjugacy classes above $z_x$, the second $d_{x, y}$, $u_x$, $t_{x,y}$
+
+\begin{center}
+\begin{tabular}{c| c c c c}
+\, &$z_x$ & $d_{x, y}$ & $u_x$ & $t_{x,y}$ \\
+\hline
+triv & 1 & 1 & 1 & 1 \\
+std & $q$ & 1 & 0 & -1 \\
+\end{tabular}
+\end{center}
+We have 
+\begin{align*}
+\langle std, std \rangle & = \frac{1}{q(q-1)^2(q+1)}\left((q-1)q^2 + \frac{q(q-1)(q-2)(q+1)}{2} + 0 + \frac{q^2(q-1)^2}{2}\right) \\
+& = 1
+\end{align*}
+
+What other representation are there?
+
+Choose $\chi:\F_q^\times\to\C$, and then $(\chi\circ\det)^n$, for $n = 1, \dots, q-2$.
+
+To construct more reps, we will examine some induces reps. 
+
+\defn
+
+Let $B = \pmat{*}{*}{0}{*} \subseteq \GL_2(\F_q)$ ($B$ is for Borel)
+
+$|B| = q(q-1)^2$. Let $U$ be all the matrices of the form $\pmat{1}{*}{0}{1}$. 
+
+What is $B/U$? It is $\F_q^\times \times \F_q^\times$. We will take reps of this and view them as reps of $B$ via the quotient map and induced reps. 
+
+For each $\psi:\F_q^\times\times\F_q^\times\to\C^\times$, we can consider the induction $\Ind_B^{\GL_2(\F_1)}(\psi|_B)$. These are indexed by $\psi(\epsilon,1)$ and $\psi(1,\epsilon)$. 
+
+Then $\Ind_B^{\GL_2(\F_q)}(\psi_{a,b}|_B)$ has dimension $q+1$ and has character $(q+1)\psi(x)^2$
+
+For $d_{x, y}$ we have $\psi(x,1)+\psi(1,x) + \psi(y,1) \cdot \psi(1,y)$
+
+I have kind of lost the plot at this point I'm sorry.
+
+\prop
+
+Let $\chi = \sum n_i \rho_i \in R(G)$ be a virtual character of a finite group $G$. Then $\chi$ is the character of an honest irrep iff $\langle\chi,\chi\rangle = 1$, and $\chi(1)>0$. 
+
+\proof
+
+If we write $\chi = \sum n_i' \rho_i'$, where $\rho_i'$ are irreps, then $\langle\chi,\chi\rangle = \sum_i(n_i)^2 = 1$ by assumption. So at most one of the $n_i$ are nonzero, and it must be $\pm 1$. So $\chi = \pm\rho$ for some irrep $\rho$. If $\chi(1)>0$, then $\chi(1)= \pm\dim\rho>0$
+
+
+
+	
+
+
+
+
+
+
+
 
 
 
