@@ -2705,6 +2705,172 @@ The \underline{Killing form} $K$ is defined as $K = B_{ad}$, so $K(x,y) = \tr(\a
 
 Next time.
 
+\defn
+
+Let $k = \bark, char k = 0$, $\g$ a finite dimensional $k$-Lie algebra. 
+
+A bilinear form $B:\g\times\g\to k$ is \underline{invariant} if
+\[
+B([x,y],z) + B(y,[x,z]) = 0
+\]
+
+Given a representation $\rho:\g\to\gl(V)$, there is a canonical form 
+\[
+B_\rho(x,y) = \tr(\rho(x)\rho(y))
+\]
+
+\defn
+
+The \underline{Killing form}  is given by $K = B_{\ad}$, so $K(x,y) = \tr(\ad(x)\ad(y))$
+
+\thm[Cartan's criterion]
+\,
+\begin{enumerate}[label=(\alph*)]
+
+\item $\g$ is semisimple if and only if $K$ is non-degenerate
+
+\item $\g$ is solvable if and only if $K([\g,\g],\g) = 0$
+
+\end{enumerate}
+
+\cor
+
+Let $\g$ be semisimple, $I \subseteq \g$ an ideal. 
+
+Then there is an $I'\subseteq\g$ such that $\g = I\oplus I'$ (as a Lie algebra).
+
+\proof
+
+$\g$ is semisimple, so by the theorem (yet to be proven), we can take $I'$ to be the perpendicular subspace under $K$, and $\dim I + \dim I' = \dim \g$ simply because $K$ is non degenerate. 
+
+We want to show $I \cap I' = 0$. 
+
+\claim 
+
+$K|_I$ is the killing form for $I$. 
+
+\proof
+
+Let $x, y \in I$. Then
+\begin{align*}
+K(x,y) & = \tr(\ad(x)\ad(y)|\g) \\
+& = \tr(\ad(x)\ad(y)|I) + \underbrace{\tr(\ad(x)\ad(y)|\g/ I)}_{=0}
+\end{align*}
+because $\ad(x),\ad(y)$ act on $\g/I$ as 0. 
+
+\qed
+
+Now to prove the theorem. 
+
+We wish to show $K|_I$ is non-degenerate. Let $x \in I$. We want to show there is a $y \in I$ with $K(x,y) \neq 0$. 
+
+We know there is some $z \in \g$ such that $K(x,z) \neq 0$. 
+
+He put it on the homework :(
+
+\qed
+
+\cor
+
+If $\g$ is semisimple, then $\g$ is a direct sum of simple non-abelian Lie algebras. 
+
+\proof
+
+Given by induction on dimension: 
+
+Choose any ideal $I \subseteq \g$. If it doesn't exist you're done. Otherwise $\g = I \oplus I'$. $I, I'$ are quotients of $\g$, hence semisimple, so we are done by the inductive hypothesis. 
+
+\qed
+
+\cor
+
+If $\g$ is semisimple, then $[\g,\g] = \g$. 
+
+\proof
+
+It is enough to check for $\g$ simple and non-abelian (because $\g$ is a direct sum of such). 
+
+But $[\g,\g] \subseteq \g$ is an ideal, hence everything, and $\g$ is nonabelian by assumption. 
+
+\qed
+
+\cor
+
+Let $\g$ be semisimple. Then all finite dimensional $\g$-representations are semisimple (meaning a direct sum of irreps). 
+
+\proof
+
+\qed
+
+Now to prove Cartan's criterion. 
+
+For the rest of today, $k = \C$ (this is a convenience and it will turn out we can reduce to this case). 
+
+\thm
+
+Let $V$ be a finite dimensional vector space, $A \in \End(V)$. 
+\begin{enumerate}
+
+\item $A = A_s + A_n$, with $A_s$ diagonalizable and $A_n$ nilpotent, with $[A_n,A_s] = 0$. 
+
+\item $\ad(A_s) = \ad(A)_s$. Moreover, $\ad(A)_s = P(\ad(A))$ for some polynomial with vanishing constant term $P \in C[t]$. 
+
+\item Let $\bar{A_s}$ be the complex conjugate matrix. Then $\ad(\bar{A_s}) = Q(\ad A_s)$ for some polynomial $Q \in \C[t]$
+
+\end{enumerate}
+
+\proof[sketch]
+\begin{enumerate}
+
+\item First, write $A$ in Jordan normal form by choosing an appropriate basis. We can take $A_s$ to be the diagonal of this, and $A_n = A - A_s$. 
+
+In basis free (and thus choice free (and thus canonical)) language, 
+
+Let $V_\lambda = \ker((A-\lambda\Id)^N) N >>0$. $V = \bigoplus_\lambda V_\lambda$. We can take $A_s \eqdef (v_\lambda)_{\lambda\in\C} \to (\lambda v_\lambda)_{\lambda\in\C}$, and then $A_n = A - A_s$.
+
+\item We want to show $A_s = P(A)$ for some $P \in \C[t]$. Let $n_\lambda = \dim V_\lambda$. Choose $p \in \C[t]$ such that 
+\[
+P \equiv \lambda \mod {t-\lambda)^{n\lambda}}\,\forall\lambda
+\]
+This exists by the chinese remainder theorem. 
+
+Then $P(A) = \lambda$ on $V_\lambda$ because $(A - \lambda\Id)^{n_\lambda} = 0$ on $V_\lambda$
+
+Remark: This tells us that $A_n$ is also a polynomial in $A$ ($A - P(A)$)
+
+Now,
+\begin{align*}
+\ad(A) & = \ad(A_s + A_n) \\
+& = \ad(A_s) + \ad(A_n)
+\end{align*}
+
+To see that $\ad(A_s) = \ad(A)_s$, it is enough to show $\ad(A_s)$ is diagonalizable, $\ad(A_n)$ is nilpotent (we can do this by computation), and $[\ad(A_s),\ad(A_n)] = 0$.
+
+Computation for $\ad(A_s)$: 
+
+$\ad(A_s)$ acts on $V_\lambda\otimes V_{\lambda'}^v$ as $\lambda - \lambda'$, 
+\[
+\End(V) = \bigoplus_{\lambda,\lambda'} V_\lambda\otimes V_{\lambda'}^v
+\]
+
+We know $P \in t\C[t]$ because $0$ is a generalized eigenvalue so $P \equiv 0 \mod t^{n_0}$
+
+\item Choose $f$ so that $f(\lambda_i - \lambda_j) = \bar{\lambda_i} - \bar{\lambda_j}$ for all $i, j$ (Lagrange). Then $f(P(\ad(A)) = \ad\bar{A_s}$
+
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
