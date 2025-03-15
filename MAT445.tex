@@ -2685,6 +2685,8 @@ We see $B(e_{ij},e_{k\ell}) = \delta_{i\ell}\delta{jk}$
 
 \qed
 
+\section*{Lecture 16, 6/11/25}
+
 \defn
 
 Let $\g$ be a Lie algebra. 
@@ -2859,15 +2861,264 @@ We know $P \in t\C[t]$ because $0$ is a generalized eigenvalue so $P \equiv 0 \m
 
 \end{enumerate}
 
+\section*{Lecture 17, 6/13/25}
 
+We finish the proof. Let $\g$ be a Lie algebra over $\C$, and let $K(x,y) = \tr(\ad(x)\ad(y))$ be the Killing form.
 
+\thm[Cartan]
+\,
+\begin{enumerate}[label=(\alph*)]
 
+\item $\g$ is semisimple iff $K$ is non-degenerate
 
+\item $\g$ is solvable iff $K(\g,[\g,\g]) = 0$.
 
+\end{enumerate}
 
+Last time we showed that if $I$ is an ideal (hence a sub-algebra), then the Killing form for $I$ is the Killing form for $\g$ restricted to $I$. 
 
+\lem
 
+Suppose $\g\subseteq\gl(V)$ is a Lie algebra such that for all $x \in \g$, $x$ is nilpotent. 
 
+Then $\g$ is itself nilpotent. 
+
+\proof[Sketch]
+
+It is enough to show that there exists $v \in V$ such that $xv = 0$ for all $x \in \g$. 
+
+By induction on $\dim V$: consider $V/\Span(v)$. Lift strict upper triangularizing basis to $V$, adjoin $v$ to it. 
+
+To show that there exists such a $v$, use induction on $\dim \g$. 
+
+For $\dim \g = 1$ note that nilpotent matrices have nonzero kernel. 
+
+For the inductive step, let $\g' \subseteq \g$ be a maximal proper sub-algebra. 
+
+Find $v$ with $\g'v = 0$, now copy the proof for solvable. 
+
+\qed
+
+\thm(Jordan)
+
+Let $V$ be a finite dimensional $\C$-vector space, $A \in \End(V)$. Then
+\begin{enumerate}
+
+\item $A = A_s + A_n$ with $[A_s,A_n] = 0$, with $A_s$ diagonalizable and $A_n$ nilpotent.
+
+\item $\ad(A)_s = \ad(A_s) = P(\ad(A))$,$P \in t\C[t]$ (i.e. $P$ has zero constant term). 
+
+\item $\ad\bar{A_s} = Q(\ad A)$ for some $Q \in t\C[t]$
+
+\end{enumerate}
+
+\proof[Proof of Cartan]
+\,
+Most of the content in $(a)$ is proving $(b)$ so we'll prove $(b)$ first. 
+
+We have $\ad:\g\to\mk{b}\subseteq \gl(\g)$, $[\g,\g]\to\mk{n} \subseteq \gl(\g)$, 
+\[
+K(x,y) = \tr(\underbrace{\ad(x)}_{\in\mk{b}}\underbrace{\ad(y)}_{\in\mk{n}}) = \tr(\text{strictly upper triangular matrix}) = 0
+\]
+
+To show that $K(\g,[\g,\g]) = 0\implies\g$ solvable, reduce to $\g \subseteq\gl(V)$. Then $\ad:\g\to\gl(V)$ has kernel $\mk{z}(\g)$
+
+It is enough to show the image of the adjoint is solvable, because then $\g$ is an extension of a solvable by a solvable. 
+
+Now, $\g \subseteq \gl(V)$, $K(\g,[\g,\g]) = 0$, and we want to show it's solvable. 
+
+Pick $x \in [\g,\g], y \in \g$. Take $x = x_s + x_n$. To show $x$ is nilpotent, we want to show all its eigenvalues are zero. 
+
+We will show $\tr(x_s\bar{x_s}) = \sum_{\lambda\in Spec(x_s)}|\lambda|^2$
+
+By hypothesis we can write $x = \sum_i[y_i,z_i]$. 
+
+\begin{align*}
+\tr(x_s\bar{x_s}) & = \tr(\sum[y_i,z_i]\bar{x_s}) \\
+& = \pm\sum\tr(y_i[z_i,\bar{x_s}]) \\
+& = \pm\sum\tr(y_i\ad(x_s)z_i) \\
+& = \pm \sum\tr(y_iQ(\ad(x)z_i))
+\end{align*} 
+
+But $y_i \in \g$, and $\ad(x)z_i \in [\g,\g]$ by definition, and $Q$ has no constant term, so this sum is 0. 
+
+Finally, by assumption $K(\g,[\g,\g]) = 0$. 
+
+So all eigenvalues are zero, so $x$ is nilpotent. 
+
+By the lemma, $[\g,\g]$ is nilpotent, so $\g$ is solvable. 
+
+We can reduce to the case of $\C$ by the ``Lefschetz principal". 
+
+So now we prove part $(a)$. 
+
+First, suppose that $K$ is nondegenerate. 
+
+We already know $\g$ is reductive, i.e. $\rad(\g) = \mk{z}(\g)$. 
+
+Let $x \in \mk{z}(\g)$. Then $K(x,y) = \tr(\ad(x)\ad(y)) = 0$, i.e. $x \in \ker K$. But $K$ is nondegenerate, so $x = 0$, so $\rad(\g) = 0$. 
+
+Now suppose $\g$ is semisimple. 
+
+Set $I = \ker K = \g^\perp$, which is an ideal. 
+
+But by the earlier lemma, $K|_I \equiv 0$, so by part $(b)$, $I$ itself is solvable.
+
+But $\g$ is semisimple, so $I = 0$. 
+
+\qed
+
+\cor[Corollaries on structure of semisimple Lie algebras]
+
+\thm
+
+Let $\g$ be semisimple, $I\subseteq\g$ an ideal. Then there exists an $I'$ with $\g = I \oplus I'$ as Lie algebras. 
+
+\proof
+
+Let $K$ be the killing form of $\g$. By Cartain, it is nondegenerate. Let $I' = I^\perp$. It is enough to show $I\cap I' = 0$.
+
+$I \cap I'$ is an ideal such that $K|_{I\cap I'} = 0$. Now by Cartan, it is solvable, hence zero. 
+
+\qed
+
+\cor
+
+Semisimple Lie algebras are direct sums of simple Lie algebras.
+
+\cor
+
+If $\g$ is semisimple then $[\g,\g]=\g$. 
+
+\proof
+
+We did these last time. 
+
+\qed
+
+\thm
+
+Suppose $\g$ is semisimple. Then every representation of $\g$ is a direct sum of irreducible representations. 
+
+In other words, any representation of a semisimple Lie algebras is semisimple. 
+
+\proof
+
+First Daniel wants to sketch a proof using the theory of Lie groups. 
+
+\underline{Sketch:} 
+
+\begin{enumerate}
+
+\item Reduce to the case $k = \R$. 
+
+\item $\g$ is the Lie algebra of a \underline{compact} Lie group $G$ such that
+
+\item All representations of $\g$ come from representations of $G$, in the sense that the derivative of a Lie group representation is a Lie algebra representation. 
+
+\item There exists a left-invariant Haar measure $\mu$ on $G$
+
+\item It is now enough to show all reps of $G$ are semisimple
+
+\item Given $G\to\GL(V)$, $W\subseteq V$ invariant, choose a projection $V\to W$, and take
+\[
+\frac{1}{\mu(G)}\int_G\rho(g,-)d\mu
+\]
+as in the proof of Maschke
+
+\end{enumerate}
+
+Here is a proof using stuff from this class: 
+
+\underline{Idea:} Use the Laplacian on $G$. 
+
+Recall: $Ug$ is the universal enveloping algebra of $\g$, defined by 
+\[
+Ug = \bigoplus_{i\geq0}\g^{\otimes i}/\langle x\otimes y - y\otimes x - px\rangle
+\]
+When $\g$ is the Lie algebra of a Lie group we can identify this with the left-invariant differential operators on $G$. 
+
+\defn[Casimir operator]
+
+Suppose $\g$ is a Lie algebra, $B$ an invariant nondegenerate bilinear form $B:\g\times\g\to k$. 
+
+Choose a basis $(e_i)$ of $\g$, and let $(e^i)$ be the dual basis, i.e. 
+\[
+B(e_i,e^j) = \delta_{ij}
+\]
+Then $C_B = \sum e_ie^i \in Ug$. 
+
+\prop
+
+$C_B$ is central and independent of the choice of basis. 
+
+\proof
+
+We think of $B \in \g^*\otimes \g^*$. We can also think of it as $B \in \underline{\Hom}_k(\g,\g^*)^\g$. $B$ furnishes an isomorphism between $\g$ and $\g^*$. 
+
+We would like an element of $\g\otimes\g$. 
+
+We have an isomorphism $(\g^*\otimes\g^*) \to (\g\otimes\g)$ given by $B^{-1}\otimes B^{-1}$. 
+
+The claim is that this sends $B$ to $C_B$. But $B$ was $\g$ invariant on the left, so it is $\g$-invariant on the right, and that's what it means to be central. 
+
+\qed
+
+\prop
+
+Suppose $\g$ is semisimple, $\rho:\g\to\gl(V)$ is a nontrivial irreducible representation. 
+
+Then there exists $C_\rho \in Z(Ug)$ such that $C_\rho$ acts on the trivial representation by $0$ and on $\rho$ by a nonzero scalar. 
+
+\proof
+
+Let $B_\rho(x,y) = \tr(\rho(x)\rho(y))$ 
+
+Set $I = \ker B_\rho$. This is an ideal, so $\g = \g'\oplus I$ where $B_\rho|_{\g'}$ is invaraint and non-degenerate.
+
+We have $C = C_{B_\rho|_{\g'}}\in Z(U\g') \into Ug$. 
+
+\begin{enumerate}
+
+\item $C$ acts trivially by 0: true for any element in $Ug_{>0}$
+
+\item $C$ acts on $\rho$ by some scalar by Schur's lemma. We must check that this scalar is nonzero. 
+
+\end{enumerate}
+
+We have 
+\begin{align*}
+\tr(C|\rho) & = \tr(\sum e_ie^i|\rho) \\
+& = \sum \tr(e_ie^i|\rho) \\
+& = \sum B_\rho(e_i,e^i) \\
+& = \sum 1 \\
+& = \dim \g'\\
+&\neq 0
+\end{align*}
+So in fact $\lambda = \frac{\dim \g'}{\dim V}$
+
+\proof
+
+\exm
+
+Let $\g = \sl_2$, $B = K$. 
+
+Take a basis $\sl_2 = \langle e, f, h \rangle$. We must compute a dual basis. 
+
+We have $\ad(e): e \mapsto 0, f\mapsto h, h \mapsto -2e$
+
+$\ad(f): e\mapsto -h, f \mapsto 0, h \mapsto 2f$
+
+$\ad(h): e \mapsto 2e, f \mapsto -2f, h \mapsto 0$
+
+We have $B(e,e) = 0, B(e, f) = 4, B(e,h) = 0$. So keep going, then we solve the system of equations 
+\[
+\begin{cases} B(e,ae + bf + ch) & = 1\\
+B(f, \cdots) & = 0 \\
+B(h,\cdots) & = 0 \\
+\end{cases}
+\]
+We wind up getting $C = \frac12 h^2 + ef + fe$
 
 
 
