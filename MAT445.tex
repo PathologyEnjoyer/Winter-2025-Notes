@@ -53,6 +53,7 @@
 \DeclareMathOperator{\gr}{gr}
 \DeclareMathOperator{\Sig}{Sig}
 \DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\Der}{Der}
 \newcommand{\Rmod}{R-\text{mod}}
 \newcommand{\RMod}{R-\text{Mod}}
 \newcommand{\onto}{\twoheadrightarrow}
@@ -2685,7 +2686,7 @@ We see $B(e_{ij},e_{k\ell}) = \delta_{i\ell}\delta{jk}$
 
 \qed
 
-\section*{Lecture 16, 6/11/25}
+\section*{Lecture 16, 11/3/25}
 
 \defn
 
@@ -2861,7 +2862,7 @@ We know $P \in t\C[t]$ because $0$ is a generalized eigenvalue so $P \equiv 0 \m
 
 \end{enumerate}
 
-\section*{Lecture 17, 6/13/25}
+\section*{Lecture 17, 6/3/25}
 
 We finish the proof. Let $\g$ be a Lie algebra over $\C$, and let $K(x,y) = \tr(\ad(x)\ad(y))$ be the Killing form.
 
@@ -3119,6 +3120,480 @@ B(h,\cdots) & = 0 \\
 \end{cases}
 \]
 We wind up getting $C = \frac12 h^2 + ef + fe$
+
+\section*{Lecture 18, 18/3/25}
+
+\thm
+
+Let $\g$ be a semisimple (in the Lie algebra sense) Lie algebra over $\C$. Then any finite dimensional representation of $\g$ is itself semisimple (in the representation of a Lie algebra sense). 
+
+\proof
+
+\prop 
+
+If $\g$ is a semisimple Lie algebra (always over $\C$), and $V$ is a non-trivial irreducible (always finite-dimensional) representation of $\g$, then there is a $C_V \in Z(U\g)$ such that $C_V$ acts on $V$ via a non-zero scalar and on the trivial representation by zero. 
+
+\proof
+
+Last time
+
+\qed
+
+\proof
+
+Now let's prove the theorem. We will do this in three cases, each of which will reduce to the previous case. 
+
+\paragraph{Case 1:} Let $W$ be a representation of $\g$, and suppose that all $C_V$ act on $W$ nilpotently. Then $W$ is trivial. 
+
+\proof
+\,
+
+By induction on dimension of $W$: If $W$ is 1-dimensional then $W$ is trivial. 
+
+Now suppose $\dim W > 1$. By assumption, $W$ is not irreducible. Let $U \subseteq W$ be a nontrivial proper subrepresentation. 
+
+By induction, $U, W/U$ are trivial. But then the morphism $\g\to\gl(W)$ factors through a group of block upper triangular matrices which corresponds to an abelian Lie algebra.
+
+So $\g$ has an abelian quotient if representation is nontrivial. 
+
+So $\g$ has an abelian, hence solvable, ideal if the representation is non-trivial.  
+
+\paragraph{Case 2:} 
+
+Let $W$ be a representation of $\g$, $U \subseteq W$ a subrep. We want a section of $W\onto W/U$. 
+\begin{enumerate}[label=(\roman*)]
+
+\item Assum $W/U = \C$
+
+\item Consider the action $\langle C_V \rangle_{V\text{ nontrivial irrep }}\curvearrowright W$
+
+Then $W = \bigoplus W_\lambda$, $\lambda:\langle C_V\rangle \to \C$, where $W_\lambda$ are the generalized eigenspaces of $\langle C_V \rangle$. 
+
+Then $p = \oplus p_\lambda:W_\lambda\to\C$. $p_\lambda = 0$ for $\lambda\neq 0$, and $p_0$ is surjective. 
+
+It is enough to find a splitting $s$ of $p_0:W_0\onto\C$. 
+
+But $W_0$ is trivial by case 1, so any $s$ works. 
+
+\item Suppose $W/U$ is arbitrary. We have a SES
+\[
+\exactshort{U}{\iota}{W}{\pi}{W/U}
+\]
+
+Hitting this SES with the functor $\Hom_\C(W/U,-)$, we get 
+
+\[
+\exactshort{\Hom_\C(W/U),U)}{\iota^*}{\Hom_\C(W/U,W)}{\pi^*}{\Hom_\C(W/U,W/U)}
+\]
+It is enough to split this sequence. We can use the $s'$ 
+
+\end{enumerate}
+
+
+\paragraph{Case 3:} Do induction. 
+
+Proof in Kirilov: 
+
+The SES's $U\into W \onto W/U$ is controlled by $H^1(\g,\underline{\Hom}_\C(W/U,U)) = 0$. But this group is $Ext^1_{Ug}(W/U,U)$. 
+
+So $Ext^1$ vanishes, and thus every every such extension splits. 
+
+$H^1(\g,V) = 0$ for a vector space $V$, and $Ext^1(A,B)$ is $H^1(\g,\Hom(A,B))$. 
+
+\
+
+\cor
+
+Let $\g$ be reductive (i.e. $\rad \g = \mk{z}(\g)$). Then 
+\[
+\g = \mk{z}(\g)\oplus\g/\mk{z}(\g)
+\]
+
+\proof
+
+Consider 
+\[
+\exactshort{\g}{}{\g/\mk{z}(\g)}{\ad}{\gl(\g)}
+\]
+
+Given by the adjoint rep. $\g$ is semisimple, and by the theorem $\g = \mk{z}(\g) \oplus \g/\mk{z}(\g)$. 
+
+So $\g \subset \mk{z}(\g) \oplus \g/\mk{z}(\g)$ as Lie algebras. 
+
+\qed
+
+\underline{Goal for the rest of the course:}
+
+Understand the analogue of 
+\[
+\langle\text{diagonal matrices}\rangle\into \sl_n
+\]
+
+For arbitrary semisimple Lie algebras. 
+
+\exm
+
+Consider $h\in \sl_2$. Suppose $h\curvearrowright $representations of $\sl_2$. 
+
+Then $h$ is always diagonalizable and irreps were classified in terms of largest eigenvalues of $h$. 
+
+\defn
+
+Let $\g$ be a semisimple Lie algebra. $x \in \g$ \underline{semisimple} if $\ad(x) \in \gl(\g)$ is diagonalizable. 
+
+$x \in \g$ is \underline{nilpotent} if $\ad(x) \in \gl(\g)$ is nilpotent. 
+
+\exm
+
+In $\sl_2 = \langle h, e, f \rangle$, $h$ is semisimple and $e, f$ are nilpotent. 
+
+\thm
+
+Let $\g$ be semisimple over $\C$, $x \in \g$. Then there is a unique way to write $x = x_s + x_n$, $x_s$ semisimple and $x_n$ nilpotent, with $[x_s,x_n] = 0$, and $\ad(x_s) = P(\ad(x)), P \in t\c[t]$. 
+
+\cor
+
+If $\g$ is semisimple then there are semisimple elements. 
+
+\proof
+
+\qed
+
+\section*{Lecture 19, 20/3/25}
+
+Last time, we proved that if $\g$ is a semisimple Lie algebra over $\C$, then all finite dimensional representations of $\g$ are themselves semisimple, i.e. direct sums of irreducibles. 
+
+\exm
+
+Consider $\sl_n = \{x\in\gl_n \mid \tr x = 0 \}$
+
+We will denote by $\mk{t}_n \subseteq \sl_n$ the diagonal matrices. 
+
+Let $E_{ij}$ be the matrix with 1 in the $i, j$th entry and 0 elsewhere. If $i\neq j$ then $E_{ij} \in \sl_n$. 
+
+$\mk{t}_n$ is commutative with a basis given by $E_{i,i} - E_{i+1,i+1}$.
+
+\prop
+
+For every $x \in \mk{t}_n$ and representation $\rho:\sl_n\to\gl_n$, $\rho(x)$ is diagonalizable.
+
+\proof
+
+It is enough to show that $\rho(E_{i,i} - E_{i+1,i+1})$ is diagonalizable. 
+
+But this is a copy of $h$ in a subalgebra isomorphic to $\sl_2$, and this is diagonalizable because of facts we know about the rep theory of $\sl_2$. 
+
+We have a distinguished class of elements $\{E_{i,i}- E_{j,j} \mid i \neq j \}\subseteq \mk{t}_n$
+
+Such that 
+\[
+\langle E_{i,j}, E_{i,j} - E_{j,i}, E_{ji}\rangle \simeq \sl_2
+\]
+
+We can break $\sl_n$ into eigenspaces for the $\mk{t}_n$-action (which is by $\ad$). 
+
+Then $\sl_n = \mk{t}_n \oplus \bigoplus_{i\neq j}\Span(E_{ij})$, because the centralizer of $\mk{t}_n$ is $\mk{t}_n$. 
+
+The direct sum is indexed by some functionals on $\mk{t}_n$ (namely the eigenvalues). But the killing form $K(x,y) = \tr(\ad(x)\ad(y)|\sl_n)$ is a nondegenerate pairing on $\mk{t}_n$, so furnishes a canonical isomorphism between $\mk{t}_n$ and its dual. 
+
+So each $\lambda$ corresponds to $K(x_\lambda,-)$ for some $x_\lambda \in \mk{t}_n$, and these turn out to be the $E_{i,j}$'s. (?)
+
+\qed
+
+\paragraph{Remark:} There's a more general story for Cartan subalgebras of $\sl_n$. 
+
+Now we have to come up with a way to say ``diagonal matrix" for an abstract Lie algebra. 
+
+\defn
+
+Let $\g$ be a semisimple Lie algebra. We say $x \in \g$ is \underline{semisimple} if $\ad(x)$ is diagonalizable, and we say $x \in \g$ is \underline{nilpotent} if $\ad(x)$ is nilpotent. 
+
+\defn
+
+$\Der(\g) \subseteq \gl(\g)$ is $\{x\in\gl(\g) \mid [ax, b] + [a, xb] = x[a,b]\}$.
+
+This is the space of derivations on $\g$. One can check as an exercise that it is in fact a subalgebra of $\gl(\g)$. 
+
+\thm
+
+Let $\g$ be semisimple, $x \in \g$. Then $x$ can be written uniquely as $x = x_s + x_n$ with $x_s$ semisimple, $x_n$ nilpotent, and $\ad(x_s) = P(\ad(x)) \in t\C[t]$. 
+
+\proof
+
+What we need is a characterization of the image of $\ad:\g\to\gl(\g)$.
+
+\prop
+
+If $\g$ is semisimple, then $\ad:\g\to\Der(\g)$ is an isomorphism. 
+
+\proof
+
+First, $\ker\ad = \mk{z}(\g)$, which is zero because $\g$ is semisimple, thus this is injective. 
+
+Extend the killing form $K$ from $\g$ to $\Der(\g)$ (which we can do because this map is injective) by saying $K(\delta_1,\delta_2) = \tr(\delta_1\delta_2\mid \g)$. 
+
+Observe $K|_\g$ is the Killing form of $\g$, which is non-degenerate by Cartan's criterion. 
+
+Hence $\Der(\g) = \g \oplus \g^\perp$, because $\g \cap \g^\perp = 0$ and $\dim \g + \dim \g^\perp \geq \dim \Der(\g)$. 
+
+\claim
+
+$\g$ is an ideal. 
+
+\proof
+
+\begin{align*}
+[\delta,\ad(x)] & = \ad\delta(x) \\
+\end{align*}
+
+\qed
+
+So $\g$ is an ideal, so $\Der(\g) = \g \oplus \g^\perp$, not just as vector spaces, but as Lie algebras. 
+
+So then $\g^\perp$ and $\g$ commute, i.e. for all $\delta \in \g^\perp$, $x \in \g$, $\delta(x) = 0$. So then $\g^\perp = 0$.
+
+This proves the claim. 
+
+\qed
+
+Now we can prove the theorem. 
+
+\proof
+
+Uniqueness is easy, and follows from the uniqueness of the usual Jordan decomposition on $\gl(\g)$. 
+
+For existence, write $\ad(x) = \ad(x)_s + \ad(x)_n$. 
+
+It is enough to show $\ad(x)_s = \ad(x_s)$ for some $x_s \in \g$, because then we can set $x_n = x - x_s$, and we get the usual Jordan decomposition. 
+
+By the proposition, to show this, it is enough to show that $\ad(x)_s$ is a derivation. 
+
+$\g = \bigoplus \g_\lambda$, where $\g_\lambda$ are the generalized eigenspaces of $\ad(x)$. 
+
+$\ad(x)$ acts on $\g_\lambda$ by $\lambda\cdot \Id$. 
+
+\claim
+\[
+[\g_\lambda,\g_\mu]\subseteq\g_{\lambda+\mu}
+\]
+
+\proof
+
+Compute
+
+\qed
+
+\cor
+
+If $\g \neq 0$ is a semisimple Lie algebra, then there exists a semisimple element in $\g$. 
+
+\proof
+
+If this is not the case, then $x = x_n$ for all $x \in \g$, i.e. the image of $\ad$ consists of nilpotent matrices, which implies $\g$ is nilpotent by a problem on homework 1.
+
+\prop
+
+Let $\g$ be semisimple, $x \in \g$ semisimple, $\rho:\g\to\gl_n$ a representation. Then $\rho(x)$ is diagonalizable.  
+
+\proof
+
+WLOG, $\rho$ is irreducible. 
+
+Let $\C^N \supseteq \bigoplus_\lambda V_\lambda$, where $V_\lambda$ is the honest (meaning NOT generalized) eigenspace of $\rho(x)$. 
+
+It is enough to show $\bigoplus_\lambda V_\lambda$ is a subrepresentation, because $\rho$ is irreducible. 
+
+Because $\rho$ is semisimple, $\g = \bigoplus \g_\alpha$, where $\g_\alpha$ is the $\alpha$-eigenspace of $\ad(x)$. 
+
+To show $V_\lambda$ is a subrepresentation it's enough to show that acting by an element of $\g$ stays in the sum, so it's enough to do it for a basis, so it's enough to do it for an eigenvector. 
+
+Fix $y \in \g_\alpha, v \in V_\lambda$. Then 
+\[
+xyv = yxv + [x,y]v = \lambda yv + \ad(x)(y)\cdot v = \lambda yv + \alpha yv = (\lambda + \alpha)yv
+\]
+So $yv \in V_{\alpha + \lambda}$. 
+
+\qed
+
+This completes the proof of the theorem. 
+
+\qed
+
+\defn
+
+Let $\g$ be a semisimple Lie algebra over $\C$. Then
+\begin{itemize}
+
+\item $\mk{t}\subseteq\g$ is \underline{toroidal} if it is commutative and consists entirely of semisimple elements 
+
+\item $\h\subseteq\g$ is \underline{Cartan} if it is toroidal, and $\{x\in\g\mid [x,y] = 0 \forall y \in \h\}$. That is, $\h$ is its own centralizer. 
+
+\end{itemize}
+
+\thm
+
+Let $\g$ be semisimple, $\mk{t}\subseteq\g$ toroidal. 
+\begin{enumerate}
+
+\item $\g = \bigoplus \g_\alpha$, $\alpha \in \mk{t}^*$, $\g_\alpha = \{x \in \g \mid [y,x] = \ad(y)x \forall y \in \mk{t}\}$. 
+
+That is, the adjoint action is diagonalizable. 
+
+\item $[\g_\alpha, \g_\beta]\subseteq\g_{\alpha+\beta}$. 
+
+\item If $\alpha+\beta \neq 0$, then $\g_\alpha,\g_\beta$ are orthogonal with respect to $K$. 
+
+\item The Killing form induces a non-degenerate pairing $\g_\alpha \times \g_{-\alpha}\to\C$. In paticular, $K|_{\g_0}$ is non-degenerate.
+
+\end{enumerate}
+
+\proof
+\,
+\begin{enumerate}
+
+\item Simultaneously diagonalizable 
+
+\item Special case of computation from before
+
+\item Take $x \in \g_\alpha, y \in \g_\beta$. Goal: compute $\tr(\ad(x)\ad(y)|\g)$. 
+
+$\ad(x)\ad(y)|(\g_\lambda) \subseteq \g_{\lambda+\alpha+\beta}$ which has zero intersection $\g_\lambda$. 
+
+So the matrix of $\ad(x)\ad(y)$ is zero on the diagonal, so $\tr(\ad(x)\ad(y)|\g) = 0$. 
+
+\item The Killing form is non-degenerate. 
+
+\end{enumerate}
+
+\thm
+
+Let $\g$ be a semisimple Lie algebra over $\C$, and suppose $\mk{t}\subseteq\g$ is a maximal toroidal subalgebra. Then $\mk{t}$ is a Cartan subalgebra. 
+
+\cor
+
+Cartan subalgebras exist
+
+\proof
+
+First we must show there exists a non-zero toroidal sub-algebra of $\g$. Then take a maximal via Zorn's lemma or the like. 
+
+\qed
+
+\proof
+
+Now let's prove the theorem. 
+
+Let $\mk{t}$ be a maximal toroidal subalgebra. 
+\[
+\g = \bigoplus_{\alpha\in\mk{t}^*}\g_\alpha
+\]
+\[
+\g_\alpha = \{x\in \g \mid [y,x] = \alpha(y)x\forall y \in \mk{t}\}
+\]
+Now note $\g_0 = C(\mk{t})$, the centralizer of $\mk{t}$. 
+
+We want to show $\mk{t} = \g_0$. 
+
+Note from what we've just shown that $K|_{\g_0}$ is non-degenerate. 
+
+\claim 
+
+Let $x in C(\mk{t}) = \g_0$. Then $x_s, x_n \in C(\mk{t})$. 
+
+\proof
+
+We have $\ad x_s = P(\ad x)$, so for all $y \in \mk{t}$, $(\ad x_s)(y) = P(\ad x)(y) = 0$, because $P \in t\C[t]$. 
+
+But this implies $x_s \in C(\mk{t})$, which implies that $x_n = x - x_s \in C(\mk{t})$
+
+\qed
+
+Now note that $C(\mk{t})$ is reductive because $K|_{C(\mk{t})}$ is non-degenerate. 
+
+\claim
+
+$C(\mk{t})$ is commutative
+
+\proof
+
+First note $C(\mk{t}) = \mk{z}(C(\mk{t}))\oplus\g'$, with $\g'$ semisimple. $\mk{t}\subseteq\mk{z}(C(\mk{t}))$
+
+Let $x_s \in \g'$ be semisimple. 
+
+Then $\langle \mk{t}, x_s \rangle$ contradicts maximality of $\mk{t}$. 
+
+\qed
+
+\claim
+
+$C(\mk{t})$ contains no nilpotents. 
+
+\proof
+
+Fix some $x \in C(\mk{t})$ nilpotent, and fix $y \in C(\mk{t})$ arbitrary. Then
+\begin{align*}
+K(x,y) & = \tr(\ad(x)\ad(y)|\g) \\
+& = \tr(\ad(y)\ad(x)|\g)
+\end{align*}
+
+By previous point, $\ad(x),\ad(y)$ commute, and so their product is nilpotent, and hence the trace is zero. 
+
+So then $x$ has to be zero by nondegeneracy of the Killing form on $C(\mk{t})$
+
+\qed
+
+Finally, $C(\mk{t})$ is toroidal because it is commutative and for all $x \in C(\mk{t})$, $x_s,x_n \in C(\mk{t})$, so $x_n = 0$ by the previous point. So $x = x_s$, i.e. $x$ is semisimple. 
+
+Hence $\t = C(\mk{t})$, because $\mk{t}$ is maximal toroidal. 
+
+\qed
+
+\paragraph{Fact:} $\Aut(\g)$ acts transitively on the Cartan subalgebras. 
+
+\subsection*{\underline{Root system}}
+
+Let $\g$ be semisimple, $\h\subseteq\g$ a Cartan subalgebra (i.e. a commutative subalgebra consisting of semisimple elements which is its own centralizer). 
+
+\thm
+\,
+\begin{enumerate}
+
+\item $\g \simeq \h \oplus \bigoplus_{\alpha\in R}\g_\alpha$, where $R$ is the set $\{\alpha \in \mk{h}^*\setminus\{0\}\mid \g_\alpha\neq0\}$, and $\g_\alpha = \{x\in \g \mid [y, x] = \alpha(y)x\forall y \in \h\}$ 
+
+$R$ is called the set of \underline{roots}
+
+\item $[\g_\alpha,\g_\beta] \subseteq \g_{\alpha+\beta}$
+
+\item If $\alpha+\beta\neq 0$, then $\g_\alpha,\g_\beta$ are orthogonal wrt the Killing form
+
+\item $K:\g_\alpha\times\g_{-\alpha}\to\C$ is non-degenerate. In particular, $K|_{\h}$ is non-degenerate.
+
+\end{enumerate}
+
+\proof
+
+$\h = \g_0$. 
+
+\qed
+
+\paragraph{Observation:} $K|_{\h}$ is non-degenerate, thus furnishes an isomorphism $\h\simeq\h^*$ sending $y$ to $K(y,-)$.
+
+So given $\alpha \in R$, there exists a unique $H_\alpha \in \h$ such that $\alpha = K(H_\alpha,-)$. 
+
+\exm
+
+Consider $\sl_3$. Then $\h$ is the diagonal matrices with trace 0.
+
+Then $\h^* = \langle e_1, e_2, e_3\rangle/(\sum e_i = 0)$ with $e_i(M) = (M)_{ii}$. 
+
+Then $R = \{\pm(e_1 - e_2) \pm (e_1 - e_3) \pm (e_2 - e_3)\}$
+
+
+
+
+
+
+
 
 
 
