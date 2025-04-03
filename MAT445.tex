@@ -3715,15 +3715,505 @@ $\dim \g_\alpha = 1$ for all $\alpha$.
 
 \paragraph{Fact:} $V \simeq (\sl_2)_\alpha$. 
 
+\section*{Lecture 21, 27/3/25}
+
+\defn[Root system]
+Let $E$ be a real vector space with pairing $(-,-)$, $R \subseteq E\setminus\{0\}$ such that 
+\begin{enumerate}
+
+\item[R1] $R$ spans $E$ 
+
+\item[R2] The quantity $\eta_{\alpha\beta} \eqdef \frac{2(\alpha,\beta)}{(\beta,\beta)} \in \Z$ for all $\alpha,\beta\in R$
+
+\item[R3] The function $s_\alpha:E\to E$, sending $\lambda \mapsto \lambda - \frac{2(\alpha,\lambda)}{(\alpha,\alpha)}\alpha$ preserves $R$ for all $\alpha \in R$.
+
+\item[R4 - Reduced] If $\alpha, c\alpha \in R$, then $c = \pm 1$. 
+
+\end{enumerate}
+
+We can rephrase $R3$ by saying $s_\alpha$ is the reflection actross $\{\lambda \mid (\lambda,\alpha) =0\}$. 
+
+We can rephrase $R2$ by saying the projection of $\beta$ onto $R_\alpha$ has half-integer length. 
+
+\paragraph{Last time:} 
+
+Let $\g$ be a semisimple Lie algebra over $\C$, $\h\subseteq\g$ a Cartan subalgebra. Then $\g = \h \oplus \bigoplus_{\alpha\in R}\g_\alpha$. 
+
+We showed this by constructing copies of $\sl_2$ for each $\alpha$, $(\sl_2)_\alpha \subseteq \g$, given by $\langle e \in \g_\alpha, t \in \g_{-\alpha}, h_\alpha \in \h\}$. 
+
+Then $\C h_\alpha\oplus\bigoplus_{k\in\Z_{\neq0}}\g_{k\alpha}$ is irreducible as a $(\sl_2)_\alpha$-represntation, where $h+\alpha \curvearrowright \g_{k\alpha}$ by $\cdot 2k\Id$. 
 
 
+\cor
+\,
+\begin{itemize}
 
+\item $\g_\alpha$ is 1-dimensional 
 
+\item $(\sl_2)_\alpha$ is independent of choices. 
 
+\item If $\alpha,\beta$ are roots with $\beta = k\alpha$, then $k = \pm 1$. 
 
+\end{itemize}
 
+\proof
 
+We will prove the third corollary (we did the other two last time). 
 
+We have $(\sl_2)_\alpha\subseteq V_\alpha$, so $(\sl_2)_\alpha = V_\alpha$ by irreducibility. 
+
+\qed
+
+\thm
+
+Let $\g,\h$ be as before, $\g = \h \oplus \bigoplus_{\alpha\in R}\g_\alpha$. 
+
+\begin{enumerate}
+
+\item $R$ spans $\h^*$ as a $\C$-vector space. 
+
+\item For all $\alpha, \dim \g_\alpha = 1$
+
+\item Setting $h_\alpha = \frac{2H_\alpha}{(\alpha,\alpha)}$, with $(H_\alpha,-) = \alpha(-)$, we have
+\[
+\beta(h_\alpha) = \frac{2(\alpha,\beta)}{(\alpha,\alpha)} \in \Z
+\]
+with $\alpha,\beta \in R$. 
+
+\item $s_\alpha: \h^*\to\h^*$ given by 
+\[
+s_\alpha(\lambda) = \lambda - \lambda(h_\alpha)\alpha = \lambda - \frac{2(\alpha,\lambda)}{(\alpha,\alpha)}
+\]
+sends roots to roots. 
+
+\item If $\alpha$ is a root, $c\alpha$ a root, then $c = \pm 1$
+
+\item Let $\alpha,\beta \neq \pm \alpha$. Then $V_{\alpha,\beta} = \bigoplus \g_{\beta+k\alpha}$ is irreducible as $(\sl_2)_\alpha$-representations
+
+\item Let $\alpha,\beta, \alpha+\beta$ be roots. Then $[\g_\alpha,\g_\beta] = \g_{\alpha+\beta}$. 
+
+\end{enumerate}
+
+\proof
+\,
+\begin{enumerate}
+
+\item Suppose there exists some $x \in \h$ such that $\alpha(x) = 0$ for all roots $\alpha$. So $x \in \mk{z}(\g)$, so $x = 0$. 
+
+\item Follows from irreducibility of $V_\alpha$
+
+\item $\beta(h_\alpha) = $eigenvalue of $h_\alpha\curvearrowright \g_\beta$. But $h_\alpha \in (\sl_2)_\alpha$, and acts on $V_{\beta+k\alpha}$. This is an $\sl_2$-representation, so the eigenvalues must be integers. 
+
+\item Consider the action $(\sl_2)_\alpha\curvearrowright V_{\alpha,\beta}$. We want to show $s_\alpha(\beta)$ is a root, i.e. $g_{s_\alpha(\beta)} \neq 0$
+
+\begin{enumerate}
+
+\item[Case 1] $n\geq 0$. Fix $0\neq x\in\g_\alpha$. Then $f^nx \in \g_{\beta-n\alpha}$, where $f^nx$ denotes the action of $x$ n times. 
+
+\item[Case 2] If $n \leq 0$, replace $f$ by $e$. 
+
+\end{enumerate}
+
+\item We have ruled out every case but $c = \pm 1, 2, \frac12$. But we can assume $c \in \Z$. We ruled out 2 but I missed it :(
+
+\item Eigenspaces of $h_\alpha$ are 1-dimensional. 
+
+\item Follows from 6 - if $[\g_\alpha,\g_\beta] = 0$, then $\g_\beta$-generates a sub-$(\sl_2)_\alpha$-representation, which contradicts irreducibility. 
+
+\end{enumerate}
+
+\qed
+
+\section*{Lecture 22, 4/1/25}
+
+\paragraph{Goal:} Explain the correspondence between semisimple Lie algebras and root systems. We've proven that given a semisimple Lie algebra $\g$ with Cartan subalgebra $\h$, $R \in \h^*$ roots, and killing form $K$. Then if $E = \Span(\R)$, then $K|_E$ is a root system. 
+
+We finish the proof of the theorem. 
+
+\proof
+
+We want to show that $K|_E$ is positive definite. 
+
+Let $h_\alpha$ span $\h^*$ (we know this to be true). 
+
+\claim
+
+For $\beta \in R$, $\beta(h_\alpha) \in \Z$
+
+\proof
+
+Follows from being an $\sl_2$-rep
+
+\qed
+
+So if $\sum c_\alpha h_\alpha \in E$, i.e $c_\alpha \in \R$, $\beta(\sum c_\alpha h_\alpha)\in\R$. 
+
+So 
+\begin{align*}
+K(\sum c_\alpha h_\alpha, \sum c_\alpha h_\alpha) & = \tr(\ad(\sum c_\alpha h_\alpha)^2 ]\
+& = \sum_\beta \beta(\sum c_\alpha h_\alpha)^2 \\
+& \geq 0
+\end{align*}
+This is strictly positive, because if this is zero, then $\sum c_alpha h_\alpha \in \mk{z}(\g) = 0$. 
+
+\qed
+
+Now we want to see how to get a Lie algebra from a root system.
+
+\paragraph{Idea:} Imitate upper triangular matrices. 
+
+\paragraph{Choose:} $t \in E$ such that $(t,\alpha)\neq0$ for all roots $\alpha$.
+
+Then $R = R^+ \cup R^-$, where
+\begin{align*}
+R^+ & \eqdef \{\alpha\in R \mid (t,\alpha)>0\} \\
+R^- & \eqdef \{\alpha\in R \mid (t,\alpha)<0\}
+\end{align*}
+We call $R^+$ the \underline{positive roots} and $R^-$ the \underline{negative roots}
+
+\paragraph{Observe:} If a root system is associated to some $(\g,\h)$, then 
+\[
+\g = \h\oplus \underbrace{\bigoplus_{\alpha\in R^+}\g_\alpha}_{\eta_+} \oplus \underbrace{\bigoplus_{\alpha\in R^-}\g_\alpha}_{\eta^-}
+\]
+
+\exm
+
+$\eta_+,\eta_-$ are nilpotent sub-algebras.
+
+\proof
+
+A picture
+
+\qed
+
+\defn
+
+$\Phi \subseteq R^+$ is $\alpha \in R^+$ such that $\alpha \neq \beta + \gamma$ for any $\gamma,\beta \in R^+$. 
+
+This is the set of \underline{simple roots}. 
+
+\prop
+
+Any positive root is a positive integer linear combination of simple roots. 
+
+\proof
+
+Follows from $\Phi$ being a basis (exercise (easy)). And any $\alpha \in R$ is a unique $\Z$-linear combination of simple roots. 
+
+\qed
+
+\paragraph{Fact:} If $\alpha,\beta\in R$< $|\alpha|>|\beta|$, $\alpha \neq t\beta$. Then there's a finite set of possible angles between $\alpha,\beta, $and $\frac{|\alpha|}{|\beta|}$. That set is
+\[
+\{\frac{\pi}{2},\frac{2\pi}{3},\frac{\pi}{3},\frac{3\pi}{4},\frac{\pi}{4},\frac{5\pi}{6},\frac{\pi}{6}\}
+\]
+
+\paragraph{Fact:} If $\alpha,\beta$ are simple roots, $(\alpha,\beta)\leq0$. 
+
+\cor
+
+$\g$ is determined, up to isomorphism, by its root system. 
+
+\proof
+
+Let $\h = E\otimes\C$, and let $\g = \h \oplus \bigoplus_{\alpha\in R}\g_\alpha$, where $\g_\alpha$ are 1-dimensional. 
+
+Relations: $\h\curvearrowright \g_\alpha$ via $\alpha_i$, $\h$ commutative. 
+
+For each $\alpha \in \Phi$, choose $e_\alpha \in \g_\alpha$. 
+
+Then $[e_\alpha,e_{\alpha'}] \in \g_{\alpha+\alpha'}$. 
+
+For each $\beta \in R^+$, there is a unique element of $\g_\beta$ obtained as nested commutator of $e_\alpha$'s. 
+
+So there is a unique $f_\beta$, $\beta \in R$, such that $[e_{-\beta},f_\beta] = h_\beta \in \h$, where $h_\beta = \frac{2H_\beta}{(\beta,\beta)}$, $(H_\beta,-) = \beta$. 
+
+For a complete set of relations: Kirillov Chapter 8. 
+
+\qed
+
+\paragraph{Observation}
+
+Given root systems $R_1, R_2$, $R_1\oplus R_2$ is a root systems. 
+
+\defn
+
+$R$ is \underline{irreducible} if it is not a direct sum of root systems. 
+
+\lem
+
+If $\g$ is simple, its root system is irreducible. 
+
+\proof
+
+\qed
+
+\defn
+
+If $R$ is a root system with a set of simple roots $\Phi$, we call the 2-tuple $(R,\Phi)$ a \underline{polarized root system}. 
+
+Cartan matrix: 
+\[
+(\frac{2(\alpha_i,\alpha_j)}{(\alpha_i,\alpha_i)})_{\alpha_i,\alpha_j\in \Phi}
+\]
+The diagonal entries are 2, the off-diagonal are all nonpositive integers. 
+
+\defn
+
+A \underline{Dynkin diagram} is a graph with vertex set $\Phi$, and for $\alpha,\beta\in\Phi$, we connect by 1 edge of the angle between them if the angle is $\frac{2\pi}{3}$, 2 edges if $\frac{3\pi}{4}$, 3 edges if $\frac{5\pi}{6}$, and 0 edges if $\frac{\pi}{2}$. 
+
+If the root system is irreducible, the graph is connected-otherwise we could find an irreducible subsystem. 
+
+We make it a digraph by having an arrow from the longer to the shorter root. 
+
+\paragraph{Classification:}
+
+I'm not fucking drawing these root systems again...
+
+\section*{Lecture 23, 4/3/25}
+
+Let $\g$ be a semisimple Lie algebra, $\h \subseteq \g$ a Cartan subalgebra. 
+
+We have a set of roots $R \subseteq \h^*$. We can write 
+\[
+\g = \h \oplus \bigoplus_{\alpha\in R}\g_\alpha
+\]
+
+We define $(\sl_2)_\alpha$ as the sub algebra generated by $\g_\alpha,\g_{-\alpha}$, with its canonical element $h_\alpha = \frac{2H_\alpha}{(\alpha,\alpha)}$, where $(H_\alpha,-) = \alpha(-)$. 
+
+We let $E = \Span_\R(R)\subseteq\h^*$. This is a root system. Choosing a $t \in E$ (last choice) such that $(t,\alpha)\neq0$ for all $\alpha \in R$. We call $R^+$ the roots that pair positively with $t$ (i.e. $(\alpha,t) > 0$), and $R^-$ the roots that pair negatively. 
+
+We call $n_+ = \bigoplus_{\alpha \in R^+}\g_\alpha$, and $n_- = \bigoplus_{\alpha\in R^-}\g_{-\alpha}$. Then the above equation can be written 
+\[
+\g = \h\oplus n_+\oplus n_-
+\]
+
+Suppose $V$ is an irrep of $\g$. For $\lambda\in\h^*$, we define $V[\lambda] = \{v\in V \mid xv = \lambda(x)v\,\forall x \in \h\}$. 
+
+\prop
+
+$V = \bigoplus_{\lambda\in\h^*}V[\lambda]$
+
+\proof
+
+\prop
+
+If $V$ is any finite dimensional irrep of $\g$, and $V[\lambda] \neq 0$, then $\lambda(h_\alpha) \in \Z$. 
+
+\proof
+
+$V|_{(\sl_2)_\alpha}$ is an $\sl_2$-representation.
+
+\qed
+
+\qed
+
+\defn
+\,
+\begin{enumerate}
+
+\item The \underline{Root lattice $Q$} is the $\Z$-span of $R$
+
+\item $Q^*$ is the $\Z$-span of the $h_\alpha$, the coroot lattice.
+
+\item $P = \{\lambda \in \h^* \mid \lambda(h_\alpha)\in\Z\}$. The weight lattice.
+
+\end{enumerate}
+
+Note $Q$ and $Q^*$ are not dual lattices despite the notation; $Q$ is dual to $P$. 
+
+\defn
+
+The \underline{character} of $V$ is $f:P\to\Z$, $\lambda\mapsto \dim V[\lambda]$.
+
+This will turn out to classify irreps, but we won't prove that here. 
+
+\defn
+
+$v \in V[\lambda]$ is a \underline{highest weight vector} if it is nonzero and $e_\alpha\cdot v = 0$ for all $\alpha \in R_+$. 
+
+\paragraph{Computation:} $\g_\alpha\otimes V[\lambda] \to V[\lambda+\alpha]$. 
+
+\defn
+
+A \underline{highest weight representation} is one generated by a highest weight vector. 
+
+\prop
+
+Any finite dimensional irrep of $\g$ is a highest weidhgt representation
+
+\proof
+
+Choose $\lambda$ with $V[\lambda]\neq0$ such that $(\lambda,t)$ is maximal. 
+
+Then $v \in V[\lambda]$ generates $V$ by irreducibility. 
+
+\qed
+
+\prop
+
+Suppose $V[\lambda]\neq0$. Then for all roots $\alpha$, $V[s_\alpha(\lambda)]\neq0$. 
+
+\proof
+
+$(\sl_2)_\alpha\curvearrowright \oplus_kV[\lambda+k\alpha]$. This implies $\dim V[\lambda+k\alpha] = \dim V[s_\alpha(\lambda)]$. 
+
+\qed
+
+\defn
+
+Let $\lambda \in \h^*$. Define $I_\lambda \subseteq U\g$ to be the left ideal generated by $n_+$ and $(x-\lambda(x))_{x\in\h}$. Then define
+\[
+M_\lambda \eqdef U_\g / I_\lambda
+\]
+We define $v_\lambda \in M_\lambda$ to be the image of 1 in $U\g$.
+
+Observe: $v_\lambda$ generates $M_\lambda$, $n_+\cdot v_\lambda = 0$, and $x\cdot v_\lambda = \lambda(x)v_\lambda$ for all $x \in \h$. 
+
+This is called a \underline{Verma module}, and it is infinite dimensional. 
+
+This is the same as $U\g\bigotimes_{U\mk{b}}\C\lambda$, where $\mk{b} = \h\oplus n_+$, and $\mk{b}$ acts on $\C\lambda$ via $n_+ \equiv 0$ and $x \in \h$ acts by $\lambda(x)$. 
+
+\prop
+
+If $V$ has highest weight $\lambda$, then $V = M_\lambda / W$ for some $W\subseteq M_\lambda$.
+
+\proof
+
+Pick $w \in V$ a highest weight generator, and consider the map $M_\lambda\to V$ given by $v_\lambda\mapsto w$. This is surjective because $w$ generates. 
+
+\qed
+
+Basic properties of $M_\lambda:$
+
+There is an isomorphism $U_{n_-}\to M_\lambda$ sending $x$ to $xv_\lambda$. 
+
+\cor
+
+$M_\lambda[\lambda']$ is finite dimensional for all $\lambda'$, and $\dim M_\lambda[\lambda]=1$. 
+
+\proof
+
+\qed
+
+So classifying the finite dimensional irreps of $\g$ is the same as classifying maximal proper submodules of $M_\lambda$. 
+
+\thm
+
+Suppose $\lambda \in \h^*$. Then there exists at most one finite dimensional irrep of $\g$ of highest weight $\lambda$. 
+
+\proof
+
+It is enough to show $M_\lambda$ has a unique maximal proper submodule. 
+
+Let 
+\[
+W = \sum_{J\subseteq M_\lambda, J[\lambda] = 0}J
+\]
+
+It is maximal because if $J$ is a proper submodule, then $J[\lambda]=0$ (otherwise it would contain $v_\lambda$), and so $J[\lambda]=0$ implies $J\subseteq W$. 
+
+It is proper for the same reason; $W[\lambda]=0$.
+
+\qed
+
+\defn
+
+Let $L_\lambda = M_\lambda / W_{max}$, where $W_{max}$ is the unique maximal submodule. 
+
+\defn
+
+$\lambda \in P \subseteq \h^*$ is \underline{dominant integral} if $\lambda(h_\alpha) \in \Z_{\geq0}$ for all $\alpha \in R^+$, i.e. $(\lambda,\alpha) \in \Z_{\geq0}$ for all $\alpha \in R^+$. 
+
+\thm
+
+$L_\lambda$ is finite dimensional if and only if $\lambda$ is dominant integral. 
+
+So this is the classification of semisimple Lie algebras. 
+
+\cor
+
+There is a natural bijection between finite dimensional irreps of $\g$ and dominant integral weights, given by sending $V$ to the highest weight of $V$. 
+
+\proof
+
+Suppose $L_\lambda$ is finite dimensional. We want to show that $\lambda$ is dominant integral. 
+
+Given $\alpha\in R^+$, $L_{\lambda}|_{(\sl_2)_\alpha}$, $\lambda(\alpha)$ is a highest weight of this $\sl_2$-rep in $\Z_{\geq0}$(?)
+
+Now suppose $\lambda$ is dominant integral. 
+
+We want to show $L_\lambda$ is finite dimensional, where $L_\lambda = M_\lambda / $unique maximal proper submodule.
+
+Fix $v_\lambda \in M_\lambda[\lambda]$ a highest weight vector (we argued earlier such a thing is unique up to scaling). 
+
+Let $n_i = (\lambda,\alpha_i)$, $\alpha_i\in R^+$. 
+\[
+(\sl_2)_{\alpha_i} = \langle e_i, f_i, h_i \rangle
+\]
+
+Let $v_{\lambda_i} = f_i^{n_i+1}v_\lambda$. 
+
+\claim
+
+$v_{\lambda_i}$ is annihilated by all $e_j$ (this is what it means to be highest weight)
+
+\proof
+
+It is enough to check this for $e_j$ coming from simple roots. If $i\neq j$ then $e_i,e_j$ commute: $e_jf_i^{n+1}e_jv_\lambda-0$. 
+
+If $i = j$ this is a statement coming from $\sl_2$-reps (?). 
+
+Set $M_i = U\g\cdot v_{\lambda_i}\subseteq M_\lambda$. 
+
+So then each $M_i$ is a proper submodule of $M_\lambda$, as $M_i[\lambda]=0$. 
+
+It is enough to show that $M_\lambda/(\sum M_i)$ is finite dimensional. 
+
+\paragraph{Observe:} In this quotient, the action of $(\sl_2)_\alpha$ on each quotient for each $\alpha$ is a finite dimensional vector space. 
+
+$(\sl_2)_\alpha v_\lambda \subseteq M_\lambda/(\sum M_i)$ is finite dimensional. 
+
+\defn
+
+$V$ is \underline{integrable} if for all $v \in V$, $U(\sl_2)_{\alpha_i}\cdot v$ is finite dimensional.
+
+\lem
+
+Given \underline{any} representation $V$ of $\g$, the integrable elements, $V^{int}$, is an integral subrepresentation. 
+
+\lem
+
+Any highest weight integrable subrepresentation is finite dimensional. 
+
+\proof
+
+Given the lemmas, $L_\lambda$ is a quotient of $M_\lambda / (\sum M_i)$, hence $(L_\lambda)^{int}$ is nonzero. $L_\lambda$ we've shown is irreducible, but by irreducibility, $L_\lambda = (L_\lambda)^{int}$, hence by lemma 2, $\dim L_\lambda<\oo$. 
+
+\qed
+
+Let's prove the first lemma now.
+
+\proof
+
+Let $x \in \g, v \in V^{int}$. We want to show that $xv \in V^{int}$. hen $xU(\sl_2)_\alpha v \subseteq \g U(\sl_2)_\alpha v$. But this is finite dimensional. 
+
+But $\g U(\sl_2)_\alpha v$ is stable under the action of $U(\sl_2)_\alpha$
+
+\qed
+
+Let's prove the second. 
+
+\proof
+
+Let $V$ be an integrable highest weight representation of highest weight $w$. Consider $\lambda$ such that $V[\lambda]\neq0$. 
+
+This set is stable under reflections $s_\alpha$ for $\alpha \in R$. 
+
+This implies the support of $w(V)$ is contained in a bounded set.
+
+So $w(V)$ is finite. But $\dim M_\lambda[\lambda']$ is finite. So finitely many weight spaces, each of which is finite dimensional, implise $\dim V < \oo$. 
+
+\qed
 
 
 
